@@ -3,7 +3,7 @@
  * Plugin Name: GP Page Transitions
  * Description: Animate your Gravity Forms page transitions and automatically progress to the next page when the current page is complete.
  * Plugin URI: http://gravitywiz.com/documentation/gp-page-transitions-for-gravity-forms/
- * Version: 1.0.beta1.1
+ * Version: 1.0.beta1.5
  * Author: Gravity Wiz
  * Author URI: http://gravitywiz.com/
  * License: GPL2
@@ -12,7 +12,7 @@
  * Domain Path: /languages
  */
 
-define( 'GP_PAGE_TRANSITIONS_VERSION', '1.0.beta1.1' );
+define( 'GP_PAGE_TRANSITIONS_VERSION', '1.0.beta1.5' );
 
 require 'includes/class-gp-bootstrap.php';
 

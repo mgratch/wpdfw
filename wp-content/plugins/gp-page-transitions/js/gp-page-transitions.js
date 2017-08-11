@@ -53,8 +53,8 @@
                 startingIndex = Math.max( 0, self.sourcePage - 1 ),//Math.max( 0, isForward ? self.currentPage - 2 : self.currentPage ),
                 currentIndex  = self.currentPage - 1;
 
-            //$formBody.css( { width: $formBody.width() } );
-            //$formBody.find( '.gform_page' ).css( { width: $formBody.width() } );
+            $formBody.css( { width: $formBody.width() } );
+            $formBody.find( '.gform_page' ).css( { width: $formBody.width() } );
 
             self.transitionSettings.before = self.resizeFormBodyTransition;
             self.transitionSettings.startingSlide = startingIndex;
@@ -93,7 +93,16 @@
         self.bindEvents = function() {
 
             if( self.enablePageTransitions ) {
-                self.initPageTransitions();
+                if( ! self.hasConditionalLogic ) {
+	                self.initPageTransitions();
+                } else {
+                	$( document ).bind( 'gform_post_conditional_logic', function() {
+                		if( ! self.$slider && self.$formElem.is( ':visible' ) ) {
+			                self.initPageTransitions();
+		                }
+		                self.resizeFormBody( self.$currentPage );
+	                } );
+                }
             }
 
             if( self.enablePageTransitions && self.enableSoftValidation ) {
@@ -174,16 +183,6 @@
 
                     self.$slider.cycle( 'next' );
                     self.updateProgressIndicator( self.currentPage );
-                    self.resizeFormBody( self.$currentPage );
-
-                } );
-
-                $(window).on('resize', function (event) {
-                    self.$formElem.trigger('resize.gppt', [self.currentPage, self.formId]);
-                });
-
-                self.$formElem.on( 'resize.gppt', function( event, currentPage, formId ) {
-                    self.$currentPage = $( '#gform_page_' + formId + '_' + self.currentPage );
                     self.resizeFormBody( self.$currentPage );
 
                 } );
@@ -278,7 +277,12 @@
                     $parent  = $inputs.parents( 'li.gfield' ),
                     isEmpty  = false;
 
-                if( $inputs.is( ':checkbox' ) || $inputs.is( ':radio' ) ) {
+                // Condtionally hidden fields should not fails this validation.
+	            if( gformIsHidden( $inputs ) ) {
+					isEmpty = false;
+	            }
+	            // Make sure at least one checkbox or radio button is checked.
+                else if( $inputs.is( ':checkbox' ) || $inputs.is( ':radio' ) ) {
                     isEmpty = $inputs.filter( ':checked' ).length == 0;
                 }
                 // support for multifile upload fields
@@ -291,7 +295,7 @@
                         isEmpty = ! $inputs.val();
                     } else {
                         $.each( $inputs, function() {
-                            if( ! $( this ).val() ) {
+                            if( ! $( this ).val() && ! $( this ).hasClass( 'gform_hidden' ) ) {
                                 isEmpty = true;
                                 return false;
                             }
@@ -313,6 +317,12 @@
                     }
                 }
 
+            }
+
+            if( result ) {
+            	self.$formElem.parents( '.gform_wrapper' ).removeClass( self.validationClassForm );
+            } else {
+	            self.$formElem.parents( '.gform_wrapper' ).addClass( self.validationClassForm );
             }
 
             return result;
@@ -341,8 +351,8 @@
         };
 
         self.resizeFormBody = function( $pageElem ) {
-            var duration = self.initialized == true ? self.transitionSettings.speed / 4 : 0;
-            $pageElem.parent().animate( { 'height' : $pageElem.height() }, duration );
+            var duration = self.initialized === true ? self.transitionSettings.speed / 4 : 0;
+            $pageElem.parent().finish().animate( { 'height' : $pageElem.height() }, duration );
         };
 
         self.updateProgressIndicator = function( pageNumber, speed ) {

@@ -115,12 +115,14 @@ class GP_Page_Transitions extends GWPerk {
 		 */
 		$args = apply_filters( 'gppt_script_args', array(
 			'formId'                 => $form['id'],
+			'hasConditionalLogic'    => GFFormDisplay::has_conditional_logic( $form ),
 			'enablePageTransitions'  => $this->is_page_transitions_enabled( $form ),
 			'enableAutoProgress'     => $this->is_auto_progress_enabled( $form ),
 			'hideNextButton'         => rgar( $form, $this->key( 'hideNextButton' ) ),
 			'hidePrevButton'         => rgar( $form, $this->key( 'hidePrevButton' ) ),
 			'enableSoftValidation'   => $this->is_soft_validation_enabled( $form ),
 			'validationSelectors'    => $this->get_validation_selectors( $form ),
+			'validationClassForm'    => 'gform_validation_error',
 			'validationClass'        => 'gfield_error gfield_contains_required',
 			'validationMessageContainer' => "<div class='gfield_description validation_message'>{0}</div>",
 			'submission'             => $this->get_submission_result( $form ),
@@ -762,6 +764,7 @@ class GP_Page_Transitions extends GWPerk {
 	}
 
 	public function get_page_count( $form ) {
+		// @todo there appears to be a GF bug where this is sometimes not accurate?
 		return count( $form['pagination']['pages'] );
 	}
 

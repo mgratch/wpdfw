@@ -1,6 +1,24 @@
 
 # Changelog
 
+## 1.0.beta1.5
+
+	- Fixed issue where multiple calls to resizeFormBody() (particularly when combined with conditional logic) could result in a long delay before displaying the form.
+	- Fixed issue where validating fields with hidden inputs incorrectly returned a validation error if the hidden field was empty.
+
+## 1.0.beta1.4
+
+	- Fixed issue where form body did not resize after conditional logic was triggered.
+
+## 1.0.beta1.3
+
+	- Fixed issue where frontend soft validation was not correctly ignoring conditionally hidden fields.
+
+## 1.0.beta1.2
+
+	- Fixed styling issue when using soft validation and ready classes for columns.
+	- Fixed styling issue which occured when initializing page transitions *before* conditional logic had been applied.
+
 ## 1.0.beta1.1
 
     - Added support for handling auto-progression for Radio Buttons w/ "Other" option enabled.
