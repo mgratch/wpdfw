@@ -267,7 +267,7 @@
 
         self.validate = function() {
 
-            var currentSelectors = self.validationSelectors[ self.currentPage ],
+            var currentSelectors = self.validationSelectors[ self.currentPage ] ? self.validationSelectors[ self.currentPage ] : [],
                 result           = true;
 
             for( var i = 0; i < currentSelectors.length; i++ ) {
