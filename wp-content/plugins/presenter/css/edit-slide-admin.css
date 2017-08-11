@@ -1,0 +1,161 @@
+.titlediv {
+	margin-bottom: 1em;
+}
+
+.titlediv label {
+	cursor: text;
+}
+
+.titlediv div.inside {
+	margin: 0;
+}
+
+.titlediv .title {
+	padding: 3px 8px;
+	font-size: 1.7em;
+	line-height: 100%;
+	height: 1.7em;
+	width: 100%;
+	outline: none;
+	margin: 0;
+	background-color: #fff;
+}
+
+.titlediv .title-prompt-text {
+	color: #777;
+	position: absolute;
+	font-size: 1.7em;
+	padding: 11px 10px;
+}
+
+div.button.dashicon {
+	padding-left: 5px;
+}
+div.button.dashicon:before {
+	font-family: 'dashicons';
+	color: #777;
+	display: inline-block;
+	font-size: 22px;
+	font-weight: 300;
+	line-height: 25px;
+	padding: 0 2px 0 0;
+	vertical-align: middle;
+}
+
+div.button.add-data:before {
+	content: '\f132';
+}
+
+div.button.add:before {
+	content: '\f133';
+}
+
+div.button.remove:before {
+	content: '\f158';
+}
+
+#postdivrich,
+#slide-__i__ {
+	display: none;
+}
+
+.show-hide-advanced {
+	display:block;
+	padding:.25em 0;
+}
+
+.show-hide-advanced.show .show,
+.show-hide-advanced.hide .hide {
+	display:inherit;
+}
+
+.show-hide-advanced.show .hide,
+.show-hide-advanced.hide .show {
+	display:none;
+}
+
+/**
+ * .stuffbox to replace .postbox because .postbox causes magical sorting that we don't want
+ * Use .stuffbox because SOME of the styling from core still applies
+ */
+
+.stuffbox .slide-hndle{
+	line-height: 1.4em;
+	border-bottom: 1px solid #eee;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.js .stuffbox .move {
+	color: #777;
+	cursor: pointer;
+}
+
+.js .stuffbox .move:hover {
+	color: #23282d;
+	cursor: pointer;
+}
+
+.js .stuffbox .slide-hndle {
+	cursor: move;
+}
+
+.stuffbox.closed h3 {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+/**
+ * End .stuffbox
+ */
+
+/**
+ * "#postcustomstuff" is a copy of #postcustomstuff because IDs
+ */
+#normal-sortables .postbox .data-attributes .submit {
+	border: 0 none;
+	float: none;
+	padding: 0 8px 8px;
+}
+
+.data-attributes table {
+    background-color: #f9f9f9;
+    border: 1px solid #dfdfdf;
+    border-spacing: 0;
+    margin: 1em 0;
+    width: 100%;
+}
+
+.data-attributes thead th {
+	padding: 5px 8px 8px;
+	background-color: #f1f1f1;
+}
+
+.data-attributes tr {
+	vertical-align: top;
+}
+
+.data-attributes table input,
+.data-attributes table select,
+.data-attributes table textarea {
+	width: 96%;
+	margin: 8px;
+}
+
+.data-attributes th.left,
+.data-attributes td.left {
+	width: 38%;
+}
+
+.data-attributes .submit input {
+	margin: 0;
+	width: auto;
+}
+
+.data-attributes .newdataleft a {
+	display: inline-block;
+	margin: 0 8px 8px;
+	text-decoration: none;
+}

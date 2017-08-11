@@ -1,0 +1,64 @@
+# Copyright (C) 2016 GP Live Preview
+# This file is distributed under the same license as the GP Live Preview package.
+msgid ""
+msgstr ""
+"Project-Id-Version: GP Live Preview 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/gp-live-preview\n"
+"POT-Creation-Date: 2016-04-17 14:36:11+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: class-gp-live-preview.php:66
+msgid "Default View"
+msgstr ""
+
+#: class-gp-live-preview.php:66
+msgid "AJAX View"
+msgstr ""
+
+#: class-gp-live-preview.php:66
+msgid "Live Preview"
+msgstr ""
+
+#: class-gp-live-preview.php:101 class-gp-live-preview.php:151
+msgid "Form Preview"
+msgstr ""
+
+#: class-gp-live-preview.php:102
+msgid "A post type created for previewing Gravity Forms forms on the frontend."
+msgstr ""
+
+#: class-gp-live-preview.php:198
+msgid "You need to log in to preview forms."
+msgstr ""
+
+#: class-gp-live-preview.php:201
+msgid "Oops! It doesn't look like you have the necessary permission to preview this form."
+msgstr ""
+
+#: includes/class-gp-bootstrap.php:43
+msgid "This plugin requires Gravity Perks. Activate it now or %1$spurchase it today!%2$s"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "GP Live Preview"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://gravitywiz.com/documentation/gp-live-preview/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Preview your forms on the frontend of your site."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Gravity Wiz"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://gravitywiz.com/"
+msgstr ""

@@ -1,0 +1,72 @@
+
+# Changelog
+
+## 1.2.7
+
+	- Fixed issue where clicking on checkbox did not correctly set the preview setting.
+
+## 1.2.6
+
+	- Added support for showing Unique ID fields when Show Hidden is enabled.
+
+## 1.2.5
+
+	- Fixed issue where Live Preview submenu options would sometimes click through to URLs.
+
+## 1.2.4
+
+	- Added 'gplp_preview_template' filter to allow filtering the preview template. See: https://gist.github.com/spivurno/5bbcc03cf0d8fe9aa82834c8e14f361f
+
+## 1.2.3
+
+    - Added backend support for Enable AJAX, Show Hidden, and Unrequire for default preview.
+    - Added support for bypassing CAPTCHA fields when Unrequire is enabled.
+
+## 1.2.2
+
+	- Added support for showing fields with visiblity of hidden when Show Hidden is enabled
+
+## 1.2.1
+
+	- Fixed issue where preview functionality was not initialized before Gravity Forms processed form
+
+## 1.2
+
+    - Refactored how preview page is created and loaded; will fix many miscellaneous issues with various themes.
+
+## 1.1.7
+
+	- Updated "Show Hidden" style block to be appened to form markup
+	- Fixed mislabled function
+
+## 1.1.6
+
+	- Fixed conflict with The Events Calendar plugin
+
+## 1.1.5
+
+	- Fixed issue where is_live_preview() returned true if 'id' parameter was set in query string
+
+## 1.1.4
+
+	- Added support for setting the preview page title for theme's not using title-tag support
+	- Fixed issue where permalinks were not auto-flushed on activation
+	- Fixed issue where preview page was being treated like an archive page
+	- Updated is_live_preview() to be more bullet-proof
+
+## 1.1.2
+
+	- Updated query to better replicate a single post/page (allows better integration with themes)
+
+## 1.1.1
+
+	- Fixed issue where tooltip was not escaped properly
+
+## 1.1
+
+	- Added support for 'Show Hidden' and 'Unrequire' options
+	- Updated Live Preview menu to allow enable multiple options at once
+
+## 1.0
+
+	- It's alive (preview)!

@@ -1,0 +1,11 @@
+
+# Changelog
+
+## 1.0.beta1.1
+
+    - Added support for handling auto-progression for Radio Buttons w/ "Other" option enabled.
+    - Added inline documentation for hooks.
+
+## 1.0.beta1.0
+
+    - Life is pleasant. Death is peaceful. It's the transition that's troublesome.

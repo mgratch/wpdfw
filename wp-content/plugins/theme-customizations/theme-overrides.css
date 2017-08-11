@@ -1,0 +1,23 @@
+.reveal .legacy-slides {
+    font-size: 36px;
+}
+
+.reveal .slides.legacy-slides {
+    zoom: 1 !important;
+}
+
+.reveal .slides.legacy-slides>section, .reveal .slides.legacy-slides>section>section {
+    line-height: 1.2em;
+}
+
+.reveal .legacy-slides h1, .reveal .legacy-slides h2, .reveal .legacy-slides h3, .reveal .legacy-slides h4, .reveal .legacy-slides h5, .reveal .legacy-slides h6 {
+    line-height: 1em;
+}
+
+.reveal .legacy-slides h1, .reveal .legacy-slides h2, .reveal .legacy-slides h3, .reveal .legacy-slides h4, .reveal .legacy-slides h5, .reveal .legacy-slides h6 {
+    line-height: 0.9em;
+}
+
+.reveal .legacy-slides p {
+    line-height: 1em;
+}
