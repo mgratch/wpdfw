@@ -5,7 +5,7 @@ if(!function_exists('add_action')){
 	exit;
 }
 
-define('LOGINIZER_VERSION', '1.3.6');
+define('LOGINIZER_VERSION', '1.3.8');
 define('LOGINIZER_DIR', WP_PLUGIN_DIR.'/'.basename(dirname(LOGINIZER_FILE)));
 define('LOGINIZER_URL', plugins_url('', LOGINIZER_FILE));
 define('LOGINIZER_PRO_URL', 'https://loginizer.com/features#compare');
@@ -180,6 +180,9 @@ function loginizer_load_plugin(){
 	
 	// The IP Method to use
 	$loginizer['ip_method'] = get_option('loginizer_ip_method');
+	if($loginizer['ip_method'] == 3){
+		$loginizer['custom_ip_method'] = get_option('loginizer_custom_ip_method');
+	}
 	
 	// Load settings
 	$options = get_option('loginizer_options');
@@ -241,6 +244,7 @@ function loginizer_load_plugin(){
 	// Is called before displaying the error message so that we dont show that the username is wrong or the password
 	// Update Error message
 	add_action('wp_login_errors', 'loginizer_error_handler', 10001, 2);
+	add_action('woocommerce_login_failed', 'loginizer_woocommerce_error_handler', 10001);
 	
 	// Is the premium features there ?
 	if(file_exists(LOGINIZER_DIR.'/premium.php')){
@@ -631,6 +635,19 @@ function loginizer_error_handler($errors, $redirect_to){
 	
 }
 
+
+
+// Handles the error of the password not being there
+function loginizer_woocommerce_error_handler(){
+	
+	global $wpdb, $loginizer, $lz_user_pass, $lz_cannot_login;
+	
+	if(function_exists('wc_add_notice')){
+		wc_add_notice( loginizer_retries_left(), 'error' );
+	}
+	
+}
+
 // Returns a string with the number of retries left
 function loginizer_retries_left(){
 	
@@ -884,9 +901,15 @@ function loginizer_page_dashboard(){
 	if(isset($_POST['save_lz_ip_method'])){
 		
 		$ip_method = (int) lz_optpost('lz_ip_method');
+		$custom_ip_method = lz_optpost('lz_custom_ip_method');
 		
-		if($ip_method >= 0 && $ip_method <= 2){
+		if($ip_method >= 0 && $ip_method <= 3){
 			update_option('loginizer_ip_method', $ip_method);
+		}
+		
+		// Custom Method name ?
+		if($ip_method == 3){
+			update_option('loginizer_custom_ip_method', $custom_ip_method);
 		}
 		
 	}
@@ -1033,11 +1056,13 @@ input[type="text"], textarea, select {
 				<td>'.lz_getip().'
 					<div style="float:right">
 						Method : 
-						<select name="lz_ip_method" style="font-size:11px; width:150px">
+						<select name="lz_ip_method" id="lz_ip_method" style="font-size:11px; width:150px" onchange="lz_ip_method_handle()">
 							<option value="0" '.lz_POSTselect('lz_ip_method', 0, (@$loginizer['ip_method'] == 0)).'>REMOTE_ADDR</option>
 							<option value="1" '.lz_POSTselect('lz_ip_method', 1, (@$loginizer['ip_method'] == 1)).'>HTTP_X_FORWARDED_FOR</option>
 							<option value="2" '.lz_POSTselect('lz_ip_method', 2, (@$loginizer['ip_method'] == 2)).'>HTTP_CLIENT_IP</option>
+							<option value="3" '.lz_POSTselect('lz_ip_method', 3, (@$loginizer['ip_method'] == 3)).'>CUSTOM</option>
 						</select>
+						<input name="lz_custom_ip_method" id="lz_custom_ip_method" type="text" value="'.lz_optpost('lz_custom_ip_method', @$loginizer['custom_ip_method']).'" style="font-size:11px; width:100px; display:none" />
 						<input name="save_lz_ip_method" class="button button-primary" value="Save" type="submit" />
 					</div>
 				</td>
@@ -1062,6 +1087,21 @@ input[type="text"], textarea, select {
 		
 		</div>
 	</div>
+
+<script type="text/javascript">
+
+function lz_ip_method_handle(){
+	var ele = jQuery('#lz_ip_method');
+	if(ele.val() == 3){
+		jQuery('#lz_custom_ip_method').show();
+	}else{
+		jQuery('#lz_custom_ip_method').hide();
+	}
+};
+
+lz_ip_method_handle();
+
+</script>
 	
 	<div id="" class="postbox">
 	
@@ -1195,7 +1235,7 @@ function loginizer_page_brute_force(){
 	}
 	
 	// Delete a Blackist IP range
-	if(isset($_GET['bdelid']) && check_admin_referer('loginizer-options')){
+	if(isset($_POST['bdelid'])){
 		
 		$delid = (int) lz_optreq('bdelid');
 		
@@ -1210,8 +1250,20 @@ function loginizer_page_brute_force(){
 			
 	}
 	
+	// Delete all Blackist IP ranges
+	if(isset($_POST['del_all_blacklist'])){
+		
+		// Unset and save
+		update_option('loginizer_blacklist', array());
+		
+		echo '<div id="message" class="updated fade"><p>'
+			. __('The Blacklist IP range(s) have been cleared successfully', 'loginizer')
+			. '</p></div><br />';
+			
+	}
+	
 	// Delete a Whitelist IP range
-	if(isset($_GET['delid']) && check_admin_referer('loginizer-options')){
+	if(isset($_POST['delid'])){
 		
 		$delid = (int) lz_optreq('delid');
 		
@@ -1222,6 +1274,18 @@ function loginizer_page_brute_force(){
 		
 		echo '<div id="message" class="updated fade"><p>'
 			. __('The Whitelist IP range has been deleted successfully', 'loginizer')
+			. '</p></div><br />';
+			
+	}
+	
+	// Delete all Blackist IP ranges
+	if(isset($_POST['del_all_whitelist'])){
+		
+		// Unset and save
+		update_option('loginizer_whitelist', array());
+		
+		echo '<div id="message" class="updated fade"><p>'
+			. __('The Whitelist IP range(s) have been cleared successfully', 'loginizer')
 			. '</p></div><br />';
 			
 	}
@@ -1680,6 +1744,32 @@ jQuery(document).ready(function(){
 	jQuery('#lz_wl_table').paginate({ limit: 11, navigationWrapper: jQuery('#lz_wl_nav')});
 });
 
+// Delete a Blacklist / Whitelist IP Range
+function del_confirm(field, todo_id, msg){
+	var ret = confirm(msg);
+	
+	if(ret){
+		jQuery('#lz_bl_wl_todo').attr('name', field);
+		jQuery('#lz_bl_wl_todo').val(todo_id);
+		jQuery('#lz_bl_wl_form').submit();
+	}
+	
+	return false;
+	
+}
+
+// Delete all Blacklist / Whitelist IP Ranges
+function del_confirm_all(msg){
+	var ret = confirm(msg);
+	
+	if(ret){
+		return true;
+	}
+	
+	return false;
+	
+}
+
 </script>
 	
 	<div id="" class="postbox">
@@ -1713,7 +1803,8 @@ jQuery(document).ready(function(){
 				</td>
 			</tr>
 		</table><br />
-		<input name="blacklist_iprange" class="button button-primary action" value="<?php echo __('Add Blacklist IP Range','loginizer'); ?>" type="submit" />		
+		<input name="blacklist_iprange" class="button button-primary action" value="<?php echo __('Add Blacklist IP Range','loginizer'); ?>" type="submit" />
+		<input style="float:right" name="del_all_blacklist" onclick="return del_confirm_all('<?php echo __('Are you sure you want to delete all Blacklist IP Range(s) ?','loginizer'); ?>')" class="button action" value="<?php echo __('Delete All Blacklist IP Range(s)','loginizer'); ?>" type="submit" />
 		</form>
 		</div>
 		
@@ -1747,7 +1838,7 @@ jQuery(document).ready(function(){
 								'.date('d/m/Y', $iv['time']).'
 							</td>
 							<td>
-								<a class="submitdelete" href="admin.php?page=loginizer_brute_force&bdelid='.$ik.'" onclick="return confirm(\'Are you sure you want to delete this IP range ?\')">Delete</a>
+								<a class="submitdelete" href="javascript:void(0)" onclick="return del_confirm(\'bdelid\', '.$ik.', \'Are you sure you want to delete this IP range ?\')">Delete</a>
 							</td>
 						</tr>';
 					}
@@ -1755,7 +1846,10 @@ jQuery(document).ready(function(){
 			?>
 		</table>
 		<br />
-		
+		<form action="" method="post" id="lz_bl_wl_form">
+		<?php wp_nonce_field('loginizer-options'); ?>
+		<input type="hidden" value="" name="" id="lz_bl_wl_todo"/> 
+		</form>
 	</div>
 	
 	<br />
@@ -1790,7 +1884,8 @@ jQuery(document).ready(function(){
 				</td>
 			</tr>
 		</table><br />
-		<input name="whitelist_iprange" class="button button-primary action" value="<?php echo __('Add Whitelist IP Range','loginizer'); ?>" type="submit" />
+		<input name="whitelist_iprange" class="button button-primary action" value="<?php echo __('Add Whitelist IP Range','loginizer'); ?>" type="submit" />		
+		<input style="float:right" name="del_all_whitelist" onclick="return del_confirm_all('<?php echo __('Are you sure you want to delete all Whitelist IP Range(s) ?','loginizer'); ?>')" class="button action" value="<?php echo __('Delete All Whitelist IP Range(s)','loginizer'); ?>" type="submit" />
 		</form>
 		</div>
 		
@@ -1824,7 +1919,7 @@ jQuery(document).ready(function(){
 							'.date('d/m/Y', $iv['time']).'
 						</td>
 						<td>
-							<a class="submitdelete" href="admin.php?page=loginizer_brute_force&delid='.$ik.'" onclick="return confirm(\'Are you sure you want to delete this IP range ?\')">Delete</a>
+							<a class="submitdelete" href="javascript:void(0)" onclick="return del_confirm(\'delid\', '.$ik.', \'Are you sure you want to delete this IP range ?\')">Delete</a>
 						</td>
 					</tr>';
 				}

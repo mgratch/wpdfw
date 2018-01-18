@@ -644,32 +644,6 @@ if (!class_exists('wp_pluginbase_v2_6_2')) {
         // validate our settings
         function admin_settings_validate($input) {
 
-            //check to see if the options were reset
-            if (isset ($input['reset-defaults'])) {
-                delete_option($this->plugin_slug);
-                delete_option($this->plugin_slug . '_valid');
-                delete_option($this->plugin_slug . '_valid_expires');
-                add_settings_error(
-                    'reset',
-                    'reset_error',
-                    __('Settings restored to default values', $this->plugin_slug),
-                    'updated'
-                );
-                return false;
-            }
-
-
-//            if (empty($input['sample_text'])) {
-//
-//                add_settings_error(
-//                    'sample_text',           // setting title
-//                    'sample_text_error',            // error ID
-//                    'Please enter some sample text',   // error message
-//                    'error'                        // type of message
-//                );
-//
-//            }
-
             foreach ($this->_settings as $setting) {
                 $this->admin_settings_validate_item($setting, $input);
             }

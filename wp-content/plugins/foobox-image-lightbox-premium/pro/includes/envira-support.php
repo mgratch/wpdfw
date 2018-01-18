@@ -13,7 +13,7 @@ if ( !class_exists( 'Foobox_Envira_Support' ) ) {
 		}
 
 		function add_envira_support_setting($tab_id) {
-			if ('looknfeel' === $tab_id) {
+			if ('general' === $tab_id) {
 
 				$foobox = $GLOBALS['foobox'];
 
@@ -29,7 +29,6 @@ if ( !class_exists( 'Foobox_Envira_Support' ) ) {
 					'section' => 'enabled',
 					'tab'     => 'general'
 				) );
-
 			}
 		}
 

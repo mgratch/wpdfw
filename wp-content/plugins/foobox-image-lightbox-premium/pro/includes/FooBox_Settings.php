@@ -699,6 +699,15 @@ if ( ! class_exists( 'FooBox_Settings' ) ) {
 				'tab'     => 'social'
 			) );
 
+			$foobox->admin_settings_add( array(
+				'id'      => 'exclude_cpt',
+				'title'   => __( 'Exclude For Post Types', 'foobox' ),
+				'desc'    => __( 'Exclude the hidden input used by social sharing on specific post types.', 'foobox' ),
+				'type'    => 'text',
+				'section' => 'main',
+				'tab'     => 'social'
+			) );
+
 			$foobox->admin_settings_add_section_to_tab( 'social', 'position', __( 'Position &amp; Behavior', 'foobox' ) );
 
 			$social_position_choices           = array();

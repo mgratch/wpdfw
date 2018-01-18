@@ -3,8 +3,8 @@ Contributors: gravityplus, naomicbush
 Donate link: https://gravityplus.pro/gravity-forms-stripe
 Tags: stripe, form, forms, gravity, gravity form, gravity forms, gravityforms, payment, payments, subscribe, subscriptions, recurring billing, paypal, authorize.net, credit cards, online payment, ecommerce, membership
 Requires at least: 3.9
-Tested up to: 4.7
-Stable tag: 1.9.2.9
+Tested up to: 4.9
+Stable tag: 1.9.2.11
 
 Build your own completely custom credit card payment forms with Stripe & Gravity Forms!
 
@@ -167,6 +167,22 @@ That's not a question ;-) but I can assure you that is not the case — use the 
 8. Need help?
 
 == Changelog ==
+
+= 1.9.2.11 (Jan 2018) =
+
+* **Developers**
+
+    * Add missing Stripe PHP library files
+
+= 1.9.2.10 (Jan 2018) =
+
+* **Developers**
+
+    * Update to latest Stripe PHP library
+
+* **Miscellaneous**
+
+    * Update Gravity Forms helper functions
 
 = 1.9.2.9 (Oct 2016) =
 
@@ -672,6 +688,13 @@ That's not a question ;-) but I can assure you that is not the case — use the 
 * Initial release. Process charges (one-time payments) only.
 
 == Upgrade Notice ==
+
+= 1.9.2.11 =
+Update Gravity Forms helper functions and Stripe PHP library.
+
+= 1.9.2.10 =
+Update Gravity Forms helper functions and Stripe PHP library.
+
 = 1.9.2.9 =
 DO NOT UPDATE if you are using More Stripe and don't have version 1.9 or greater (email support for latest version). Update Stripe PHP library.
 

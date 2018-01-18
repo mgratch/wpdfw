@@ -3,7 +3,7 @@ Contributors: bradvin, fooplugins, freemius
 Donate link: http://fooplugins.com
 Tags: lightbox,media,images,gallery,modal
 Requires at least: 3.5.1
-Tested up to: 4.7.4
+Tested up to: 4.9.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,6 +16,13 @@ FooBox was the first lightbox to take responsive layout seriously. Not only does
 
 Works with most image gallery plugins, but works best with our [FooGallery Image Gallery WordPress Plugin](http://foo.gallery).
 
+**New Feature : Complete FooBox Asset Control!**
+
+By default, FooBox includes javascript and stylesheet assets into all your pages. We do this, because we do not know if the page content contains media or not.
+If you want more control over when FooBox assets are included, you can now exclude the assets by default, by enabling a setting. Then on each page, you can choose to include them when required.
+Alternatively, you can leave the setting disabled, and then choose to exclude the FooBox assets from particular pages. A new metabox is now available when editing your pages or posts.
+This new feature was only available in the PRO version beforehand, but we feel control over your website performance is something you should not have to pay for. Enjoy!
+
 **Now includes a 7-day free trial of FooBox Pro!**
 
 **FooBox Image Lightbox Features:**
@@ -25,6 +32,7 @@ Works with most image gallery plugins, but works best with our [FooGallery Image
 *	Zero configuration!
 *	Works with WordPress galleries
 *	Works with WordPress captioned images
+*	Control when to exclude / include FooBox JS &amp; CSS assets
 
 **[FooBox PRO](http://fooplugins.com/plugins/foobox/?utm_source=fooboxfreeplugin&utm_medium=fooboxfreeprolink&utm_campaign=foobox_free_wprepo) Features:**
 
@@ -75,6 +83,21 @@ There is a setting to try and disable hard coded lightboxes, but this is not a s
 2. Phone example
 
 == Changelog ==
+
+= 2.5.1 =
+* Dropped support for IE7 and IE8 (removing CSS validation errors)
+* Updated to latest client JS & CSS fixing a few bugs
+
+= 2.5.0 =
+* Added new setting to exclude FooBox assets by default
+* Added metabox on all public post types to include/exclude FooBox assets
+* Major version bump to avoid confusion with FooBox PRO 2.4.0.0
+
+= 1.2.34 =
+* Fix : lightbox was not working with FooGallery paging
+* Updated to latest client CSS
+* Updated to latest Freemius SDK 1.2.1.10
+* Removed FooGallery admin notices
 
 = 1.2.27 =
 * Fix : default caption state was disabled when no settings were saved.

@@ -4,7 +4,7 @@
 Plugin Name: FooBox Image Lightbox (Premium)
 Plugin URI: http://fooplugins.com/plugins/foobox/
 Description: The best responsive lightbox for WordPress.
-Version: 1.2.27
+Version: 2.5.1
 Author: FooPlugins
 Author URI: http://fooplugins.com
 License: GPL2
@@ -21,7 +21,7 @@ if ( !class_exists( 'FooBox' ) ) {
     define( 'FOOBOX_BASE_ACTIVATION_REDIRECT_TRANSIENT_KEY', '_foobox_activation_redirect' );
     define( 'FOOBOX_BASE_PATH', plugin_dir_path( __FILE__ ) );
     define( 'FOOBOX_BASE_URL', plugin_dir_url( __FILE__ ) );
-    define( 'FOOBOX_BASE_VERSION', '1.2.27' );
+    define( 'FOOBOX_BASE_VERSION', '2.5.1' );
     // Create a helper function for easy SDK access.
     function foobox_fs()
     {
@@ -160,6 +160,7 @@ if ( !class_exists( 'FooBox' ) ) {
         {
             
             if ( function_exists( 'is_multisite' ) && is_multisite() ) {
+                //do nothing for multisite!
             } else {
                 //Make sure we redirect to the welcome page
                 set_transient( FOOBOX_BASE_ACTIVATION_REDIRECT_TRANSIENT_KEY, true, 30 );
@@ -184,7 +185,7 @@ if ( !class_exists( 'FooBox' ) ) {
             }
             $url = admin_url( 'admin.php?page=' . FOOBOX_BASE_SLUG );
             wp_safe_redirect( $url );
-            die;
+            exit;
         }
         
         public function render_page_getting_started()

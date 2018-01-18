@@ -314,3 +314,8 @@ label.icons_radio, label.colours_radio, label.loaders_radio {
 .foobox-getting-started.about-wrap .feature-section img {
 	margin-bottom: 0;
 }
+
+#foobox_reset_settings_spinner {
+	float: inherit;
+	margin: 0 10px 0;
+}

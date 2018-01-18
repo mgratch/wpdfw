@@ -844,8 +844,8 @@
 			bind: function () {
 				//overlay click
 				if (_this.FooBox.options.closeOnOverlayClick == true){
-					_this.element.unbind('click.foobox')
-						.bind('click.foobox', function (e) {
+					_this.element.off('click.foobox')
+						.on('click.foobox', function (e) {
 							// the option is checked as well as it can be disabled during run time.
 							if (_this.FooBox.options.closeOnOverlayClick == true && $(e.target).is('.fbx-modal')) {
 								_this.close();
@@ -853,21 +853,21 @@
 						});
 				}
 				//bind action buttons
-				_this.element.find('.fbx-close').unbind('click.foobox')
-					.bind('click.foobox',function (e) {
+				_this.element.find('.fbx-close').off('click.foobox')
+					.on('click.foobox',function (e) {
 						e.preventDefault();
 						e.stopPropagation();
 						_this.close();
 					}).end()
-					.find('.fbx-prev').unbind('click.foobox')
-					.bind('click.foobox',function (e) {
+					.find('.fbx-prev').off('click.foobox')
+					.on('click.foobox',function (e) {
 						e.preventDefault();
 						e.stopPropagation();
 						if ($(this).hasClass('fbx-disabled')) return;
 						_this.prev();
 					}).end()
-					.find('.fbx-next').unbind('click.foobox')
-					.bind('click.foobox', function (e) {
+					.find('.fbx-next').off('click.foobox')
+					.on('click.foobox', function (e) {
 						e.preventDefault();
 						e.stopPropagation();
 						if ($(this).hasClass('fbx-disabled')) return;
@@ -1371,7 +1371,7 @@
 			 */
 			bind: function () {
 				// Bind any external element clicks to open FooBox.
-				$(_this.options.externalSelector).unbind('click.fooboxExternal').bind('click.fooboxExternal', function (e) {
+				$(_this.options.externalSelector).off('click.fooboxExternal').on('click.fooboxExternal', function (e) {
 					e.preventDefault();
 					var selector = $(this).data('foobox'), target = $(selector);
 					var fbx = target.data('fbx_instance') || target.data('fbx_p_instance');
@@ -1486,15 +1486,15 @@
 				reinit = reinit || false;
 				_this.items.new_array(reinit);
 				if (_this.element.is(_this.options.selector) && !_this.element.is(_this.options.excludes) && _this.items.add(_this.element)) {
-					_this.element.unbind('click.item').bind('click.item', _this.items.clicked);
+					_this.element.off('click.item').on('click.item', _this.items.clicked);
 				} else {
 					_this.element.find(_this.options.selector)
 						.not(_this.options.excludes)
-						.unbind('click.item')
+						.off('click.item')
 						.filter(function () {
 							return _this.items.add(this);
 						})
-						.bind('click.item', _this.items.clicked);
+						.on('click.item', _this.items.clicked);
 				}
 				_this.items.rel();
 			},
@@ -1509,7 +1509,7 @@
 						item.destroy();
 					}
 					if (FooBox.isjQuery(item.element)){
-						item.element.unbind('click.item').removeClass('fbx-link').data('fbx_p_instance', null);
+						item.element.off('click.item').removeClass('fbx-link').data('fbx_p_instance', null);
 					}
 				}
 				_this.items.array = [];
@@ -1526,11 +1526,11 @@
 					$('[rel="' + rel + '"]')
 						.not(_this.options.excludes)
 						.not(_this.element)
-						.unbind('click.item')
+						.off('click.item')
 						.filter(function () {
 							return _this.items.add(this);
 						})
-						.bind('click.item', _this.items.clicked);
+						.on('click.item', _this.items.clicked);
 				}
 			},
 			/**
@@ -1895,7 +1895,7 @@
 		 */
 		this.init = function(element){
 			_this.handlers.unbind();
-			element.bind('foobox.close', _this.handlers.onClose);
+			element.on('foobox.close', _this.handlers.onClose);
 		};
 
 		/**
@@ -1911,7 +1911,7 @@
 			 * This unbinds event handlers used by this addon.
 			 */
 			unbind: function(){
-				_this.FooBox.element.unbind('foobox.close', _this.handlers.onClose);
+				_this.FooBox.element.off('foobox.close', _this.handlers.onClose);
 			},
 			/**
 			 * Handles the foobox.close event.
@@ -2065,7 +2065,11 @@
 					$clone = item.content.clone().css(styles);
 				}
 				if (FooBox.isjQuery($clone)){
-					var maxWidth = Math.max(document.documentElement.clientWidth, window.innerWidth, 0) - 10;
+					var $spacer = _this.FooBox.modal.element.find(".fbx-inner-spacer"),
+							padding = parseInt($spacer.css('padding-left')) + parseInt($spacer.css('padding-right')),
+							$inner = _this.FooBox.modal.element.find(".fbx-inner"),
+							border = parseInt($inner.css('border-left')) + parseInt($inner.css('border-right')),
+							maxWidth = Math.max(document.documentElement.clientWidth, window.innerWidth, 0) - padding - border;
 					$clone.css({ position: 'absolute', visibility: 'hidden', display: 'block', top: -10000, left: -10000, maxWidth: maxWidth }).appendTo('body');
 					if (item.auto.width == true || item.width == null || item.width == 0){
 						item.auto.width = true;
@@ -2415,7 +2419,7 @@
 				var _load = function () {
 					var $img = $(item.image).addClass('fbx-item fbx-item-image');
 					if (_this.FooBox.options.images.noRightClick) {
-						$img.bind('contextmenu', function (e) {
+						$img.on('contextmenu', function (e) {
 							e.preventDefault();
 							return false;
 						});
@@ -2508,7 +2512,7 @@
 			/** @type {boolean} - A Boolean indicating whether or not to allow fullscreen by default on video items. */
 			fullscreen: true,
 			/** @type {RegExp} - A regular expression used to check whether or not this handler handles an item. */
-			regex: /(youtube(-nocookie)?\.com\/(watch|v|embed)|youtu\.be|vimeo\.com|\.mp4|\.ogv|\.wmv|\.webm|(.+)?(wistia\.(com|net)|wi\.st)\/.*|(www.)?dailymotion\.com|dai\.ly)/i,
+			regex: /(youtube(-nocookie)?\.com\/(watch|v|embed)|youtu\.be|vimeo\.com(?!(\/user))|\.mp4|\.ogv|\.wmv|\.webm|(.+)?(wistia\.(com|net)|wi\.st)\/.*|(www.)?dailymotion\.com|dai\.ly)/i,
 			/**
 			 * @type {function} - A Function to use to 'find' the url on an element.
 			 * @param {FooBox.Instance} foobox - The parent instance of FooBox.
@@ -2921,7 +2925,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.setupHtml': _this.handlers.setupHtml,
 				'foobox.setupOptions': _this.handlers.setupOptions,
@@ -2946,7 +2950,7 @@
 			unbind: function(all) {
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.setupHtml': _this.handlers.setupHtml,
 						'foobox.setupOptions': _this.handlers.setupOptions,
@@ -2955,14 +2959,14 @@
 						'foobox.close': _this.handlers.close
 					});
 				}
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.beforeLoad': _this.handlers.beforeLoad,
 					'foobox.afterLoad': _this.handlers.afterLoad
 				});
 				if (_this.FooBox.modal instanceof FooBox.Modal && FooBox.isjQuery(_this.FooBox.modal.element)){
-					_this.FooBox.modal.element.undelegate('mouseenter.captions mouseleave.captions')
+					_this.FooBox.modal.element.off('mouseenter.captions mouseleave.captions')
 						.find('.fbx-item-current, .fbx-item-next')
-						.unbind('click.captions');
+						.off('click.captions');
 				}
 			},
 			/**
@@ -2972,17 +2976,17 @@
 			initialized: function (e) {
 				_this.handlers.unbind();
 				if (e.fb.options.captions.enabled === true) {
-					e.fb.instance.element.bind({
+					e.fb.instance.element.on({
 						'foobox.beforeLoad': _this.handlers.beforeLoad,
 						'foobox.afterLoad': _this.handlers.afterLoad,
 						'foobox.close': _this.handlers.close
 					});
 					if (e.fb.options.modalClass.indexOf("fbx-caption-toggle-only") === -1){
-						e.fb.modal.find('.fbx-item-current, .fbx-item-next').bind('click.captions', _this.handlers.toggleCaptions);
+						e.fb.modal.find('.fbx-item-current, .fbx-item-next').on('click.captions', _this.handlers.toggleCaptions);
 					}
 					if (e.fb.options.captions.onlyShowOnHover === true) {
-						e.fb.modal.delegate('.fbx-inner:not(:has(.fbx-item-error))', 'mouseenter.captions', _this.handlers.mouseenter)
-							.delegate('.fbx-inner:not(:has(.fbx-item-error))', 'mouseleave.captions', _this.handlers.mouseleave);
+						e.fb.modal.on('mouseenter.captions', '.fbx-inner:not(:has(.fbx-item-error))', _this.handlers.mouseenter)
+							.on('mouseleave.captions', '.fbx-inner:not(:has(.fbx-item-error))', _this.handlers.mouseleave);
 					}
 				}
 			},
@@ -3030,7 +3034,7 @@
 			 */
 			setupHtml: function (e) {
 				var $caption = $('<div/>', {'class': 'fbx-caption'}),
-					$open_caption = $('<a/>', {'class': 'fbx-open-caption', html: '&hellip;'}).bind('click.captions',_this.handlers.toggleCaptions);
+					$open_caption = $('<a/>', {'class': 'fbx-open-caption', html: '&hellip;'}).on('click.captions',_this.handlers.toggleCaptions);
 				if (typeof e.fb.options.modalClass == 'string' && e.fb.options.modalClass.indexOf('fbx-sticky-caption') != -1){
 					e.fb.modal.append($caption, $open_caption);
 				} else {
@@ -3101,8 +3105,8 @@
 					var tSrc = $(e.fb.element).data('titleSource') || $(e.fb.instance.element).data('titleSource') || opts.titleSource,
 						dSrc = $(e.fb.element).data('descSource') || $(e.fb.instance.element).data('descSource') || opts.descSource;
 
-					title = e.fb.element.data('captionTitle') || e.fb.element.data('title') || _this.text(e.fb.element, tSrc);
-					desc = e.fb.element.data('captionDesc') || e.fb.element.data('description') || _this.text(e.fb.element, dSrc);
+					if (tSrc != "none") title = e.fb.element.data('captionTitle') || e.fb.element.data('title') || _this.text(e.fb.element, tSrc);
+					if (dSrc != "none") desc = e.fb.element.data('captionDesc') || e.fb.element.data('description') || _this.text(e.fb.element, dSrc);
 				} else {
 					title = e.fb.item.title;
 					desc = e.fb.item.description;
@@ -3217,8 +3221,8 @@
 					}
 					return false;
 				})
-				.unbind('click.captions')
-				.bind('click.captions', function (e) {
+				.off('click.captions')
+				.on('click.captions', function (e) {
 					e.preventDefault();
 					var target = $(this).data('hrefTarget');
 					var fbx = $(target).data('fbx_instance') || $(target).data('fbx_p_instance');
@@ -3230,7 +3234,7 @@
 					return false;
 				});
 
-			$('<a/>', {'class': 'fbx-close-caption', html: '&times;'}).bind('click.captions',_this.handlers.toggleCaptions).prependTo($caption);
+			$('<a/>', {'class': 'fbx-close-caption', html: '&times;'}).on('click.captions',_this.handlers.toggleCaptions).prependTo($caption);
 		};
 
 		/**
@@ -3310,7 +3314,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.parseItem': _this.handlers.parseItem
 			});
@@ -3332,12 +3336,12 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.parseItem': _this.handlers.parseItem
 					});
 				}
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.afterLoad': _this.handlers.afterLoad,
 					'foobox.close': _this.handlers.close
 				});
@@ -3349,7 +3353,7 @@
 			initialized: function (e) {
 				_this.handlers.unbind();
 				if (e.fb.options.deeplinking.enabled === true) {
-					e.fb.instance.element.bind({
+					e.fb.instance.element.on({
 						'foobox.afterLoad': _this.handlers.afterLoad,
 						'foobox.close': _this.handlers.close
 					});
@@ -3507,7 +3511,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind();
-			element.bind({
+			element.on({
 				'foobox.afterLoad': _this.handlers.foobox_image_onload,
 				'foobox.beforeLoad': _this.handlers.foobox_image_custom_caption
 			});
@@ -3531,7 +3535,7 @@
 
 		this.handlers = {
 			unbind: function(){
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.afterLoad': _this.handlers.foobox_image_onload,
 					'foobox.beforeLoad': _this.handlers.foobox_image_custom_caption
 				});
@@ -3606,7 +3610,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.setupHtml': _this.handlers.setupHtml,
 				'foobox.setupOptions': _this.handlers.setupOptions
@@ -3629,23 +3633,23 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.setupHtml': _this.handlers.setupHtml,
 						'foobox.setupOptions': _this.handlers.setupOptions
 					});
 				}
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.afterShow': _this.handlers.afterShow,
 					'foobox.beforeLoad': _this.handlers.beforeLoad,
 					'foobox.keydown': _this.handlers.onKeydown,
 					'foobox.close': _this.handlers.onClose
 				});
 				if (_this.FooBox.modal instanceof FooBox.Modal && FooBox.isjQuery(_this.FooBox.modal.element)){
-					_this.FooBox.modal.element.find('.fbx-fullscreen-toggle').unbind('click.fullscreen', _this.handlers.onClick);
+					_this.FooBox.modal.element.find('.fbx-fullscreen-toggle').off('click.fullscreen', _this.handlers.onClick);
 				}
-				$(document).unbind('webkitfullscreenchange mozfullscreenchange fullscreenchange', _this.handlers.onFullscreenChange)
-					.bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', _this.handlers.onFullscreenChange);
+				$(document).off('webkitfullscreenchange mozfullscreenchange fullscreenchange', _this.handlers.onFullscreenChange)
+					.on('webkitfullscreenchange mozfullscreenchange fullscreenchange', _this.handlers.onFullscreenChange);
 			},
 			/**
 			 * Handles the foobox.initialized event binding the various events needed by this addon to function.
@@ -3655,14 +3659,14 @@
 				_this.handlers.unbind();
 
 				if (e.fb.options.fullscreen.enabled === true) {
-					e.fb.instance.element.bind({
+					e.fb.instance.element.on({
 						'foobox.beforeLoad': _this.handlers.beforeLoad,
 						'foobox.afterShow': _this.handlers.afterShow,
 						'foobox.afterResize': _this.handlers.afterResize,
 						'foobox.keydown': _this.handlers.onKeydown,
 						'foobox.close': _this.handlers.onClose
 					});
-					e.fb.modal.find('.fbx-fullscreen-toggle').bind('click.fullscreen', _this.handlers.onClick);
+					e.fb.modal.find('.fbx-fullscreen-toggle').on('click.fullscreen', _this.handlers.onClick);
 				}
 			},
 			/**
@@ -3881,7 +3885,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.setupOptions': _this.handlers.setupOptions
 			});
@@ -3902,12 +3906,12 @@
 			unbind: function(all) {
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.setupOptions': _this.handlers.setupOptions
 					});
 				}
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.afterResize': _this.handlers.afterResize,
 					'foobox.beforeShow': _this.handlers.beforeShow,
 					'foobox.beforeClose': _this.handlers.beforeClose
@@ -3920,7 +3924,7 @@
 			initialized: function (e) {
 				_this.handlers.unbind();
 				if (FooBox.browser.supportsTransitions() && typeof _this.FooBox.options.effect == 'string'){
-					e.fb.instance.element.bind({
+					e.fb.instance.element.on({
 						'foobox.afterResize': _this.handlers.afterResize,
 						'foobox.beforeShow': _this.handlers.beforeShow,
 						'foobox.beforeClose': _this.handlers.beforeClose
@@ -4057,7 +4061,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.setupHtml': _this.handlers.setupHtml
 			});
@@ -4079,14 +4083,14 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.setupHtml': _this.handlers.setupHtml
 					});
 				}
-				_this.FooBox.element.unbind('foobox.afterLoad', _this.handlers.afterLoad);
+				_this.FooBox.element.off('foobox.afterLoad', _this.handlers.afterLoad);
 				if (FooBox.isjQuery(_this.FooBox.modal.element)){
-					_this.FooBox.modal.element.unbind('keydown.foobox', _this.handlers.onKeydown);
+					_this.FooBox.modal.element.off('keydown.foobox', _this.handlers.onKeydown);
 				}
 			},
 			/**
@@ -4096,9 +4100,9 @@
 			initialized: function () {
 				_this.handlers.unbind();
 				if (_this.FooBox.options.keyboard.enabled == true){
-					_this.FooBox.element.bind('foobox.afterLoad', _this.handlers.afterLoad);
+					_this.FooBox.element.on('foobox.afterLoad', _this.handlers.afterLoad);
 					if (FooBox.isjQuery(_this.FooBox.modal.element)){
-						_this.FooBox.modal.element.bind('keydown.foobox', _this.handlers.onKeydown);
+						_this.FooBox.modal.element.on('keydown.foobox', _this.handlers.onKeydown);
 					}
 				}
 			},
@@ -4233,7 +4237,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
+			element.on('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
 		};
 
 		/**
@@ -4252,10 +4256,10 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
+					_this.FooBox.element.off('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
 				}
-				$(window).unbind('resize.foobox', _this.handlers.resize);
-				_this.FooBox.element.unbind({
+				$(window).off('resize.foobox', _this.handlers.resize);
+				_this.FooBox.element.off({
 					'foobox.beforeShow': _this.handlers.iosBeforeShow,
 					'foobox.close': _this.handlers.iosClose
 				});
@@ -4268,10 +4272,10 @@
 				_this.handlers.unbind();
 				_this.setup.breakpoints();
 				_this.style();
-				$(window).bind('resize.foobox', _this.handlers.resize);
+				$(window).on('resize.foobox', _this.handlers.resize);
 				// This is a hack to get around ios7 & Safari's terrible handling of the address and bookmarks bar.
 				if (FooBox.browser.iOS && (FooBox.browser.isSafari || FooBox.browser.isChrome)){
-					_this.FooBox.element.bind({
+					_this.FooBox.element.on({
 						'foobox.beforeShow': _this.handlers.iosBeforeShow,
 						'foobox.close': _this.handlers.iosClose
 					});
@@ -4495,7 +4499,7 @@
 		this.preinit = function (element, options) {
 			_this.handlers.unbind(true);
 			_this.autostart = options.slideshow.autostart;
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.setupHtml': _this.handlers.setupHtml,
 				'foobox.setupOptions': _this.handlers.setupOptions,
@@ -4519,14 +4523,14 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.setupHtml': _this.handlers.setupHtml,
 						'foobox.setupOptions': _this.handlers.setupOptions,
 						'foobox.onError': _this.handlers.onError
 					});
 				}
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.beforeLoad': _this.handlers.beforeLoad,
 					'foobox.afterLoad': _this.handlers.afterLoad,
 					'foobox.close': _this.handlers.onClose,
@@ -4536,8 +4540,8 @@
 					'foobox.fullscreenDisabled': _this.handlers.fullscreenDisabled
 				});
 				if (_this.FooBox.modal instanceof FooBox.Modal && FooBox.isjQuery(_this.FooBox.modal.element)){
-					_this.FooBox.modal.element.undelegate('click.slideshow').unbind('mousemove.foobox')
-						.find('.fbx-play, .fbx-pause').unbind('mouseenter.foobox mouseleave.foobox');
+					_this.FooBox.modal.element.off('click.slideshow').off('mousemove.foobox')
+						.find('.fbx-play, .fbx-pause').off('mouseenter.foobox mouseleave.foobox');
 				}
 			},
 			/**
@@ -4549,7 +4553,7 @@
 				_this.handlers.unbind();
 				// Only bind if the addon is enabled.
 				if (e.fb.options.slideshow.enabled === true && e.fb.instance.items.multiple()) {
-					e.fb.instance.element.bind({
+					e.fb.instance.element.on({
 						'foobox.beforeLoad': _this.handlers.beforeLoad,
 						'foobox.afterLoad': _this.handlers.afterLoad,
 						'foobox.close': _this.handlers.onClose,
@@ -4560,15 +4564,15 @@
 					});
 
 					e.fb.modal
-						.delegate('.fbx-play', 'click.slideshow', _this.handlers.playClicked)
-						.delegate('.fbx-pause', 'click.slideshow', _this.handlers.pauseClicked);
+						.on('click.slideshow', '.fbx-play', _this.handlers.playClicked)
+						.on('click.slideshow', '.fbx-pause', _this.handlers.pauseClicked);
 
 					if (e.fb.modal.hasClass('fbx-playpause-center')){
 						e.fb.modal
-							.bind('mousemove.foobox', _this.handlers.mousemove)
+							.on('mousemove.foobox', _this.handlers.mousemove)
 							.find('.fbx-play, .fbx-pause')
-							.bind('mouseenter.foobox', _this.handlers.mouseenter)
-							.bind('mouseleave.foobox', _this.handlers.mouseleave);
+							.on('mouseenter.foobox', _this.handlers.mouseenter)
+							.on('mouseleave.foobox', _this.handlers.mouseleave);
 					}
 				}
 			},
@@ -4882,7 +4886,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind({
+			element.on({
 				'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 				'foobox.setupHtml': _this.handlers.setupHtml,
 				'foobox.setupOptions': _this.handlers.setupOptions,
@@ -4906,7 +4910,7 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind({
+					_this.FooBox.element.off({
 						'foobox.initialized foobox.reinitialized': _this.handlers.initialized,
 						'foobox.setupHtml': _this.handlers.setupHtml,
 						'foobox.setupOptions': _this.handlers.setupOptions,
@@ -4915,15 +4919,15 @@
 						'foobox.captionsHide': _this.handlers.captionsHide
 					});
 				}
-				_this.FooBox.element.unbind({
+				_this.FooBox.element.off({
 					'foobox.beforeLoad': _this.handlers.beforeLoad,
 					'foobox.afterLoad': _this.handlers.afterLoad,
 					'foobox.afterResize': _this.handlers.afterResize
 				});
 				if (_this.FooBox.modal instanceof FooBox.Modal && FooBox.isjQuery(_this.FooBox.modal.element)){
-					_this.FooBox.modal.element.undelegate('mouseenter.social mouseleave.social')
+					_this.FooBox.modal.element.off('mouseenter.social mouseleave.social')
 						.find('.fbx-item-current, .fbx-item-next')
-						.unbind('click.social');
+						.off('click.social');
 				}
 			},
 			/**
@@ -4933,7 +4937,7 @@
 			initialized: function (e) {
 				_this.handlers.unbind();
 				if (e.fb.options.social.enabled === true) {
-					e.fb.instance.element.bind({
+					e.fb.instance.element.on({
 						'foobox.beforeLoad': _this.handlers.beforeLoad,
 						'foobox.afterLoad': _this.handlers.afterLoad,
 						'foobox.afterResize': _this.handlers.afterResize,
@@ -4948,15 +4952,15 @@
 							return false;
 						}
 					});
-					e.fb.modal.find('.fbx-social-toggle').unbind('click.social').bind('click.social', function(e){
+					e.fb.modal.find('.fbx-social-toggle').off('click.social').on('click.social', function(e){
 						e.preventDefault();
 						e.stopPropagation();
 						_this.handlers.toggleSocial();
 					});
 
 					if (e.fb.options.social.onlyShowOnHover === true) {
-						e.fb.modal.delegate('.fbx-inner:not(:has(.fbx-item-error))', 'mouseenter.social', _this.handlers.mouseenter)
-							.delegate('.fbx-inner:not(:has(.fbx-item-error))', 'mouseleave.social', _this.handlers.mouseleave);
+						e.fb.modal.on('mouseenter.social', '.fbx-inner:not(:has(.fbx-item-error))', _this.handlers.mouseenter)
+							.on('mouseleave.social', '.fbx-inner:not(:has(.fbx-item-error))', _this.handlers.mouseleave);
 					}
 				}
 			},
@@ -5265,7 +5269,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
+			element.on('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
 		};
 
 		/**
@@ -5284,10 +5288,10 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
+					_this.FooBox.element.off('foobox.initialized foobox.reinitialized', _this.handlers.initialized);
 				}
 				if (_this.FooBox.modal instanceof FooBox.Modal && FooBox.isjQuery(_this.FooBox.modal.element)){
-					_this.FooBox.modal.element.unbind({
+					_this.FooBox.modal.element.off({
 						'touchstart': _this.handlers.onTouchStart,
 						'touchmove': _this.handlers.onTouchMove
 					});
@@ -5300,7 +5304,7 @@
 			initialized: function (e) {
 				_this.handlers.unbind();
 				if (e.fb.options.swipe.enabled === true) {
-					e.fb.modal.bind('touchstart', _this.handlers.onTouchStart);
+					e.fb.modal.on('touchstart', _this.handlers.onTouchStart);
 				}
 			},
 			/**
@@ -5312,7 +5316,7 @@
 				if (touches.length != 1 || !_this.FooBox.items.multiple()) { return; }
 				startX = touches[0].pageX;
 				_this.isMoving = true;
-				_this.FooBox.modal.element.bind('touchmove', _this.handlers.onTouchMove);
+				_this.FooBox.modal.element.on('touchmove', _this.handlers.onTouchMove);
 			},
 			/**
 			 * Handles the standard jQuery touchstart event.
@@ -5340,7 +5344,7 @@
 		 * Cancels the current touch event resetting the swipe property values.
 		 */
 		this.cancelTouch = function () {
-			_this.FooBox.modal.element.unbind('touchmove', _this.handlers.onTouchMove);
+			_this.FooBox.modal.element.off('touchmove', _this.handlers.onTouchMove);
 			startX = null;
 			_this.isMoving = false;
 		};
@@ -5473,7 +5477,7 @@
 				});
 
 			if (captions){
-				modal.find('.fbx-item-current, .fbx-item-next').unbind('click.captions', captions.handlers.toggleCaptions);
+				modal.find('.fbx-item-current, .fbx-item-next').off('click.captions', captions.handlers.toggleCaptions);
 			}
 
 		};
@@ -5486,7 +5490,7 @@
 				});
 
 			if (captions){
-				modal.find('.fbx-item-current, .fbx-item-next').bind('click.captions', captions.handlers.toggleCaptions);
+				modal.find('.fbx-item-current, .fbx-item-next').on('click.captions', captions.handlers.toggleCaptions);
 			}
 
 		};
@@ -5672,7 +5676,7 @@
 		 */
 		this.preinit = function (element) {
 			_this.handlers.unbind(true);
-			element.bind('foobox.createCaption', _this.handlers.onCreateCaption);
+			element.on('foobox.createCaption', _this.handlers.onCreateCaption);
 		};
 
 		/**
@@ -5691,7 +5695,7 @@
 			unbind: function(all){
 				all = all || false;
 				if (all){
-					_this.FooBox.element.unbind('foobox.createCaption', _this.handlers.onCreateCaption);
+					_this.FooBox.element.off('foobox.createCaption', _this.handlers.onCreateCaption);
 				}
 			},
 			/**

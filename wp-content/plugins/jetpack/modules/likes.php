@@ -2,12 +2,13 @@
 /**
  * Module Name: Likes
  * Module Description: Give visitors an easy way to show they appreciate your content.
+ * Jumpstart Description: Give visitors an easy way to show they appreciate your content.
  * First Introduced: 2.2
  * Sort Order: 23
  * Requires Connection: Yes
  * Auto Activate: No
  * Module Tags: Social
- * Feature: Engagement
+ * Feature: Engagement, Jumpstart
  * Additional Search Queries: like, likes, wordpress.com
  */
 
@@ -135,12 +136,22 @@ class Jetpack_Likes {
 	 */
 	function load_styles_register_scripts() {
 		if ( $this->in_jetpack ) {
-			if ( ! wp_style_is( 'open-sans', 'registered' ) ) {
-				wp_register_style( 'open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans', array(), JETPACK__VERSION );
-			}
-			wp_enqueue_style( 'jetpack_likes', plugins_url( 'likes/style.css', __FILE__ ), array( 'open-sans' ), JETPACK__VERSION );
+			wp_enqueue_style( 'jetpack_likes', plugins_url( 'likes/style.css', __FILE__ ), array(), JETPACK__VERSION );
 			$this->register_scripts();
 		}
+	}
+
+	/**
+	 * Stub for is_likes_visible, since some themes were calling it directly from this class
+	 *
+	 * @deprecated 5.4
+	 * @return bool
+	 */
+	function is_likes_visible() {
+		_deprecated_function( __METHOD__, 'jetpack-5.4', 'Jetpack_Likes_Settings()->is_likes_visible' );
+
+		$settings = new Jetpack_Likes_Settings();
+		return $settings->is_likes_visible();
 	}
 
 	/**
@@ -268,9 +279,33 @@ class Jetpack_Likes {
 	* Register scripts
 	*/
 	function register_scripts() {
-		wp_register_script( 'postmessage', plugins_url( '_inc/postmessage.js', dirname(__FILE__) ), array( 'jquery' ), JETPACK__VERSION, false );
-		wp_register_script( 'jetpack_resize', plugins_url( '_inc/jquery.jetpack-resize.js' , dirname(__FILE__) ), array( 'jquery' ), JETPACK__VERSION, false );
-		wp_register_script( 'jetpack_likes_queuehandler', plugins_url( 'likes/queuehandler.js' , __FILE__ ), array( 'jquery', 'postmessage', 'jetpack_resize' ), JETPACK__VERSION, true );
+		wp_register_script(
+			'postmessage',
+			Jetpack::get_file_url_for_environment( '_inc/build/postmessage.min.js', '_inc/postmessage.js' ),
+			array( 'jquery' ),
+			JETPACK__VERSION,
+			false
+		);
+		wp_register_script(
+			'jetpack_resize',
+			Jetpack::get_file_url_for_environment(
+				'_inc/build/jquery.jetpack-resize.min.js',
+				'_inc/jquery.jetpack-resize.js'
+			),
+			array( 'jquery' ),
+			JETPACK__VERSION,
+			false
+		);
+		wp_register_script(
+			'jetpack_likes_queuehandler',
+			Jetpack::get_file_url_for_environment(
+				'_inc/build/likes/queuehandler.min.js',
+				'modules/likes/queuehandler.js'
+			),
+			array( 'jquery', 'postmessage', 'jetpack_resize' ),
+			JETPACK__VERSION,
+			true
+		);
 	}
 
 	/**
@@ -322,8 +357,24 @@ class Jetpack_Likes {
 	function enqueue_admin_scripts() {
 		if ( empty( $_GET['post_type'] ) || 'post' == $_GET['post_type'] || 'page' == $_GET['post_type'] ) {
 			if ( $this->in_jetpack ) {
-				wp_enqueue_script( 'likes-post-count', plugins_url( 'modules/likes/post-count.js', dirname( __FILE__ ) ), array( 'jquery' ), JETPACK__VERSION );
-				wp_enqueue_script( 'likes-post-count-jetpack', plugins_url( 'modules/likes/post-count-jetpack.js', dirname( __FILE__ ) ), array( 'likes-post-count' ), JETPACK__VERSION );
+				wp_enqueue_script(
+					'likes-post-count',
+					Jetpack::get_file_url_for_environment(
+						'_inc/build/likes/post-count.min.js',
+						'modules/likes/post-count.js'
+					),
+					array( 'jquery' ),
+					JETPACK__VERSION
+				);
+				wp_enqueue_script(
+					'likes-post-count-jetpack',
+					Jetpack::get_file_url_for_environment(
+						'_inc/build/likes/post-count-jetpack.min.js',
+						'modules/likes/post-count-jetpack.js'
+					),
+					array( 'likes-post-count' ),
+					JETPACK__VERSION
+				);
 			} else {
 				wp_enqueue_script( 'jquery.wpcom-proxy-request', "/wp-content/js/jquery/jquery.wpcom-proxy-request.js", array('jquery'), NULL, true );
 				wp_enqueue_script( 'likes-post-count', plugins_url( 'likes/post-count.js', dirname( __FILE__ ) ), array( 'jquery' ), JETPACK__VERSION );

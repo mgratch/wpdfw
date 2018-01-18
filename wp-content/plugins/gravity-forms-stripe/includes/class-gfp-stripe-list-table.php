@@ -1,9 +1,9 @@
 <?php
-/** @package   GFP_Stripe_List_Table
-		 * @copyright 2014 gravity+
-		 * @license   GPL-2.0+
-		 * @since     1.8.2
-		 */
+/** @package  GFP_Stripe_List_Table
+ * @copyright 2014-2018 gravity+
+ * @license   GPL-2.0+
+ * @since     1.8.2
+ */
 
 /**
  * Class GFP_Stripe_List_Table

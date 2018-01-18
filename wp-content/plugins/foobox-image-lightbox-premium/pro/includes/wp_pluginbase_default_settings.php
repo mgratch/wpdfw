@@ -61,7 +61,9 @@ if (!class_exists('wp_pluginbase_v2_6_default_settings')) {
                 ?>
 		<p class="submit">
 			<input name="Submit" class="button-primary" type="submit" value="<?php _e('Save Changes', $plugin_name); ?>" />
-                        <input name="<?php echo $plugin_name; ?>[reset-defaults]" onclick="return confirm('<?php _e('Are you sure you want to restore all settings back to their default values?', $plugin_name); ?>');" class="button-secondary" type="submit" value="<?php _e('Restore Defaults', $plugin_name); ?>" />
+			<input class="button-secondary <?php echo $plugin_name; ?>-reset-settings" onclick="return confirm('<?php _e('Are you sure you want to restore all settings back to their default values?', $plugin_name); ?>');" type="submit" value="<?php _e('Restore Defaults', $plugin_name); ?>" />
+			<span id="<?php echo $plugin_name; ?>_reset_settings_spinner" class="spinner"></span>
+			<?php wp_nonce_field( $plugin_name . '_reset_settings', $plugin_name . '_reset_settings_nonce', false ); ?>
 		</p>
 	</form>
 </div>

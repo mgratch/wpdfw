@@ -35,6 +35,10 @@ function lz_getip(){
 		$ip = $_SERVER["HTTP_CLIENT_IP"];
 	}
 	
+	if(@$loginizer['ip_method'] == 3 && isset($_SERVER[@$loginizer['custom_ip_method']])){
+		$ip = $_SERVER[@$loginizer['custom_ip_method']];
+	}
+	
 	// Hacking fix for X-Forwarded-For
 	if(!lz_valid_ip($ip)){
 		return '';
@@ -328,3 +332,15 @@ function lz_get_page($get = 'page', $resperpage = 50){
 	return $page;
 }
 
+// Replaces the Variables with the supplied ones
+function lz_lang_vars_name($str, $array){
+	
+	foreach($array as $k => $v){
+		
+		$str = str_replace('$'.$k, $v, $str);
+	
+	}
+	
+	return $str;
+
+}

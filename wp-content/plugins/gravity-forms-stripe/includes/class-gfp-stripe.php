@@ -1,7 +1,7 @@
 <?php
 /**
  * @package   GFP_Stripe
- * @copyright 2013-2016 gravity+
+ * @copyright 2013-2018 gravity+
  * @license   GPL-2.0+
  * @since     0.1.0
  */
@@ -44,7 +44,7 @@ class GFP_Stripe {
 	 *
 	 * @var string
 	 */
-	private static $version = '1.9.2.9';
+	private static $version = '1.9.2.11';
 
 	/**
 	 *

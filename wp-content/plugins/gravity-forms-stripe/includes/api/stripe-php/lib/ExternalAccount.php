@@ -5,6 +5,9 @@ namespace PPP\Stripe;
 /**
  * Class ExternalAccount
  *
+ * @property string $id
+ * @property string $object
+ *
  * @package Stripe
  */
 abstract class ExternalAccount extends ApiResource

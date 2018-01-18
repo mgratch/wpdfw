@@ -65,8 +65,6 @@ if (!class_exists('fooboxV2')) {
 
 				do_action('foobox-admin-init', $this);
 
-				new FooBox_FooGallery_Lightbox_Admin_Notice();
-
 				add_action( FOOBOX_ACTION_ADMIN_MENU_RENDER_GETTING_STARTED, array( $this, 'render_page_getting_started' ) );
 				add_action( FOOBOX_ACTION_ADMIN_MENU_RENDER_SETTINGS, array( $this, 'render_page_settings' ) );
 
@@ -74,6 +72,9 @@ if (!class_exists('fooboxV2')) {
 
 				add_filter( 'foobox_getting_started_title', array( $this, 'override_getting_started_title' ) );
 				add_filter( 'foobox_getting_started_tagline', array( $this, 'override_getting_started_tagline' ) );
+
+				// Ajax calls for resetting settings
+				add_action( 'wp_ajax_foobox_reset_settings', array( $this, 'ajax_reset_settings' ) );
 
 			} else {
 				add_filter( 'fooboxshareurl', array($this, 'shorten_share_url') );
@@ -94,6 +95,18 @@ if (!class_exists('fooboxV2')) {
 			$GLOBALS['fooboxshare'] = new FooBoxShare();
 
 			new Foobox_Exclude();
+
+			new FooGallery_FooBox_Extension();
+		}
+
+
+		public function ajax_reset_settings() {
+			if ( check_admin_referer( 'foobox_reset_settings', 'foobox_reset_settings_nonce' ) ) {
+				delete_option( 'foobox' );
+				delete_option( 'foobox_valid' );
+				delete_option( 'foobox_valid_expires' );
+			}
+			die();
 		}
 
 		function plugin_title() {
@@ -320,7 +333,7 @@ if (!class_exists('fooboxV2')) {
 				<input name="<?php echo $input_name; ?>" id="rad_loader_8" <?php if ($loader == "8") { echo 'checked="checked"'; } ?> type="radio" value="8" tabindex="2"/>
 				<input name="<?php echo $input_name; ?>" id="rad_loader_9" <?php if ($loader == "9") { echo 'checked="checked"'; } ?> type="radio" value="9" tabindex="2"/>
 				<input name="<?php echo $input_name; ?>" id="rad_loader_10" <?php if ($loader == "10") { echo 'checked="checked"'; } ?> type="radio" value="10" tabindex="2"/>
-				<input name="<?php echo $input_name; ?>" id="rad_loader_12" <?php if ($loader == "11") { echo 'checked="checked"'; } ?> type="radio" value="11" tabindex="2"/>
+				<input name="<?php echo $input_name; ?>" id="rad_loader_11" <?php if ($loader == "11") { echo 'checked="checked"'; } ?> type="radio" value="11" tabindex="2"/>
 			</div>
 			<div class="radio_selector">
 				<label class="loaders_radio" for="rad_loader_default">
@@ -538,6 +551,8 @@ if (!class_exists('fooboxV2')) {
 		}
 
 		function disable_other_lightboxes() {
+			if ( !apply_filters('foobox_enqueue_scripts', true ) ) return;
+
 			?>
 			<script type="text/javascript">
 				jQuery.fn.prettyPhoto   = function () { return this; };

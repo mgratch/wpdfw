@@ -64,4 +64,24 @@ jQuery(document).ready(function($) {
 		$target.val(code);
 	});
 
+	$('.foobox-reset-settings').click(function(e) {
+		e.preventDefault();
+
+		$('#foobox_reset_settings_spinner').addClass('is-active');
+		var data = 'action=foobox_reset_settings' +
+			'&foobox_reset_settings_nonce=' + $('#foobox_reset_settings_nonce').val() +
+			'&_wp_http_referer=' + encodeURIComponent($('input[name="_wp_http_referer"]').val());
+
+		$.ajax({
+			type: "POST",
+			url: ajaxurl,
+			data: data,
+			success: function(data) {
+				alert('Your settings have been reset. The page will now reload.');
+				//refresh page
+				location.reload();
+			}
+		});
+	});
+
 });

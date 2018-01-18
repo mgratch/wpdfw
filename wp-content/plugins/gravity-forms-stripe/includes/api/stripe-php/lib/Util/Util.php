@@ -7,6 +7,7 @@ use PPP\Stripe\StripeObject;
 abstract class Util
 {
     private static $isMbstringAvailable = null;
+    private static $isHashEqualsAvailable = null;
 
     /**
      * Whether the provided array (or other) is a list rather than a dictionary.
@@ -64,39 +65,50 @@ abstract class Util
     public static function convertToStripeObject($resp, $opts)
     {
         $types = array(
+            // data structures
+            'list' => 'PPP\\Stripe\\Collection',
+
+            // business objects
             'account' => 'PPP\\Stripe\\Account',
             'alipay_account' => 'PPP\\Stripe\\AlipayAccount',
             'apple_pay_domain' => 'PPP\\Stripe\\ApplePayDomain',
-            'bank_account' => 'PPP\\Stripe\\BankAccount',
+            'application_fee' => 'PPP\\Stripe\\ApplicationFee',
+            'balance' => 'PPP\\Stripe\\Balance',
             'balance_transaction' => 'PPP\\Stripe\\BalanceTransaction',
+            'bank_account' => 'PPP\\Stripe\\BankAccount',
+            'bitcoin_receiver' => 'PPP\\Stripe\\BitcoinReceiver',
+            'bitcoin_transaction' => 'PPP\\Stripe\\BitcoinTransaction',
             'card' => 'PPP\\Stripe\\Card',
             'charge' => 'PPP\\Stripe\\Charge',
             'country_spec' => 'PPP\\Stripe\\CountrySpec',
             'coupon' => 'PPP\\Stripe\\Coupon',
             'customer' => 'PPP\\Stripe\\Customer',
             'dispute' => 'PPP\\Stripe\\Dispute',
-            'list' => 'PPP\\Stripe\\Collection',
+            'ephemeral_key' => 'PPP\\Stripe\\EphemeralKey',
+            'event' => 'PPP\\Stripe\\Event',
+            'exchange_rate' => 'PPP\\Stripe\\ExchangeRate',
+            'fee_refund' => 'PPP\\Stripe\\ApplicationFeeRefund',
+            'file_upload' => 'PPP\\Stripe\\FileUpload',
             'invoice' => 'PPP\\Stripe\\Invoice',
             'invoiceitem' => 'PPP\\Stripe\\InvoiceItem',
-            'event' => 'PPP\\Stripe\\Event',
-            'file' => 'PPP\\Stripe\\FileUpload',
-            'token' => 'PPP\\Stripe\\Token',
-            'transfer' => 'PPP\\Stripe\\Transfer',
-            'transfer_reversal' => 'PPP\\Stripe\\TransferReversal',
+            'login_link' => 'PPP\\Stripe\\LoginLink',
             'order' => 'PPP\\Stripe\\Order',
             'order_return' => 'PPP\\Stripe\\OrderReturn',
+            'payout' => 'PPP\\Stripe\\Payout',
             'plan' => 'PPP\\Stripe\\Plan',
             'product' => 'PPP\\Stripe\\Product',
             'recipient' => 'PPP\\Stripe\\Recipient',
+            'recipient_transfer' => 'PPP\\Stripe\\RecipientTransfer',
             'refund' => 'PPP\\Stripe\\Refund',
             'sku' => 'PPP\\Stripe\\SKU',
             'source' => 'PPP\\Stripe\\Source',
+            'source_transaction' => 'PPP\\Stripe\\SourceTransaction',
             'subscription' => 'PPP\\Stripe\\Subscription',
             'subscription_item' => 'PPP\\Stripe\\SubscriptionItem',
             'three_d_secure' => 'PPP\\Stripe\\ThreeDSecure',
-            'fee_refund' => 'PPP\\Stripe\\ApplicationFeeRefund',
-            'bitcoin_receiver' => 'PPP\\Stripe\\BitcoinReceiver',
-            'bitcoin_transaction' => 'PPP\\Stripe\\BitcoinTransaction',
+            'token' => 'PPP\\Stripe\\Token',
+            'transfer' => 'PPP\\Stripe\\Transfer',
+            'transfer_reversal' => 'PPP\\Stripe\\TransferReversal',
         );
         if (self::isList($resp)) {
             $mapped = array();
@@ -140,5 +152,73 @@ abstract class Util
         } else {
             return $value;
         }
+    }
+
+    /**
+     * Compares two strings for equality. The time taken is independent of the
+     * number of characters that match.
+     *
+     * @param string $a one of the strings to compare.
+     * @param string $b the other string to compare.
+     * @return bool true if the strings are equal, false otherwise.
+     */
+    public static function secureCompare($a, $b)
+    {
+        if (self::$isHashEqualsAvailable === null) {
+            self::$isHashEqualsAvailable = function_exists('hash_equals');
+        }
+
+        if (self::$isHashEqualsAvailable) {
+            return hash_equals($a, $b);
+        } else {
+            if (strlen($a) != strlen($b)) {
+                return false;
+            }
+
+            $result = 0;
+            for ($i = 0; $i < strlen($a); $i++) {
+                $result |= ord($a[$i]) ^ ord($b[$i]);
+            }
+            return ($result == 0);
+        }
+    }
+
+    /**
+     * @param array $arr A map of param keys to values.
+     * @param string|null $prefix
+     *
+     * @return string A querystring, essentially.
+     */
+    public static function urlEncode($arr, $prefix = null)
+    {
+        if (!is_array($arr)) {
+            return $arr;
+        }
+
+        $r = array();
+        foreach ($arr as $k => $v) {
+            if (is_null($v)) {
+                continue;
+            }
+
+            if ($prefix) {
+                if ($k !== null && (!is_int($k) || is_array($v))) {
+                    $k = $prefix."[".$k."]";
+                } else {
+                    $k = $prefix."[]";
+                }
+            }
+
+            if (is_array($v)) {
+                $enc = self::urlEncode($v, $k);
+                if ($enc) {
+                    $r[] = $enc;
+                }
+            } else {
+                $r[] = urlencode($k)."=".urlencode($v);
+            }
+        }
+
+        return implode("&", $r);
     }
 }

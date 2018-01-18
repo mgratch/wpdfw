@@ -189,6 +189,7 @@ if ( !class_exists( 'FooBox_Free_Script_Generator' ) ) {
 ' . $ready_event . '(function() {
 ' . $preload . '
   FOOBOX.init();
+  jQuery(\'body\').on(\'post-load\', function(){ FOOBOX.init(); });
 ';
 
 			$js .= '

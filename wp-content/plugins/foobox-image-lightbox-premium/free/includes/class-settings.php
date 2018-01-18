@@ -167,6 +167,15 @@ if ( !class_exists( 'FooBox_Free_Settings' ) ) {
 				'tab'     => 'advanced'
 			);
 
+			$settings[] = array(
+				'id'      => 'excludebydefault',
+				'title'   => __( 'Exclude FooBox Assets', 'foobox-image-lightbox' ),
+				'desc'    => __( 'By default, FooBox includes javascript and stylesheet assets into all your pages. We do this, because we do not know if the page content contains media or not.<br>If you want more control over when FooBox assets are included, you can now exclude FooBox assets by default, by enabling this setting. Then on each page, you can choose to include the assets if required.<br>Or you can leave the setting disabled, and then choose to exclude FooBox assets from particular pages. A new FooBox metabox is now available when editing your pages or posts.', 'foobox-image-lightbox' ),
+				'type'    => 'checkbox',
+				'section' => __( 'JS &amp; CSS', 'foobox-image-lightbox' ),
+				'tab'     => 'advanced'
+			);
+
 			//endregion
 
 			//region Debug Tab

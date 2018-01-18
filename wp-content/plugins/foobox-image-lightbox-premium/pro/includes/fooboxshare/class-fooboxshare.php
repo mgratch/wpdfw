@@ -153,7 +153,30 @@ if ( ! class_exists( 'FooBoxShare' ) ) {
 		public function add_postid_hidden_input($content){
 			if ( !apply_filters('foobox_enqueue_scripts', true ) ) return $content;
 
-			return $content . '<input class="fooboxshare_post_id" type="hidden" value="' . get_the_ID() . '"/>';
+			$post_id = get_the_ID();
+
+			if ( false === $post_id ) {
+				return $content;
+			}
+
+			$exclude_cpt = fooboxshare_get_setting( 'exclude_cpt' );
+
+			if ( !empty( $exclude_cpt ) ) {
+				if ( $exclude_cpt === get_post_type( $post_id ) ) {
+					return $content;
+				}
+			}
+
+			global $foobox_postid_hidden_input;
+
+			//make sure we only add this once per page
+			if ( isset( $foobox_postid_hidden_input ) && is_array( $foobox_postid_hidden_input ) && array_key_exists( $post_id, $foobox_postid_hidden_input ) ) {
+				return $content;
+			}
+
+			$foobox_postid_hidden_input[$post_id] = $post_id;
+
+			return $content . '<input class="fooboxshare_post_id" type="hidden" value="' . $post_id . '"/>';
 		}
 
 		/**
@@ -283,6 +306,8 @@ if ( ! class_exists( 'FooBoxShare' ) ) {
 						}
 					}
 				}
+
+				$share_data = apply_filters( 'fooboxshare_sharedata_for_visitors', $share_data );
 
 				//if we get here, then we are not dealing with a crawler, so we need to redirect
 				header( "Location: {$share_data->redirect_url}" );

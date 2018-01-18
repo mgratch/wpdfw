@@ -1,6 +1,22 @@
 
 # Changelog
 
+## 2.0
+
+	- Added GP_Plugin and GP_Feed_Plugin to integrate with Gravity Forms Add-on Framework.
+    - Added support for announcements; short banner messages with news and updates about Gravity Perks.
+    - Added support for new license types (Basic, Advanced, Pro).
+    - Added license toolbar on Manager Perks page.
+    - Added GRAVITY_PERKS_VERSION constant for managing plugin version.
+    - Fixed a myriad of notices.
+    - Removed a myriad of unused legacy code.
+    - Removed settings page.
+
+## 1.2.26
+
+	- Added GRAVITY_PERKS_VERSION constant.
+	- Added support for GW_STORE_URL for easier local development.
+
 ## 1.2.25
 
 	- Replaced Markdown library to resolve several PHP errors.
