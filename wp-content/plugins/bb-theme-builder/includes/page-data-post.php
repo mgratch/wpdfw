@@ -45,7 +45,6 @@ FLPageData::add_post_property( 'content', array(
 	'label'       => __( 'Post Content', 'fl-theme-builder' ),
 	'group'       => 'posts',
 	'type'        => 'string',
-	'post_type'   => 'fl-theme-layout',
 	'getter'      => 'FLPageDataPost::get_content',
 	'placeholder' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tempor arcu nisl. Sed ac tempus nulla.',
 ) );
@@ -117,6 +116,36 @@ FLPageData::add_post_property_settings_fields( 'date', array(
 			'd F Y'         => date( 'd F Y' ),
 			'Y-m-d'         => date( 'Y-m-d' ),
 			'Y/m/d'         => date( 'Y/m/d' ),
+		),
+	),
+) );
+
+/**
+ * Post Modified Date
+ */
+FLPageData::add_post_property( 'modified_date', array(
+	'label'       => __( 'Post Modified Date', 'fl-theme-builder' ),
+	'group'       => 'posts',
+	'type'        => 'string',
+	'getter'      => 'FLPageDataPost::get_modified_date',
+) );
+
+FLPageData::add_post_property_settings_fields( 'modified_date', array(
+	'format' => array(
+		'type'          => 'select',
+		'label'         => __( 'Modified Date Format', 'fl-theme-builder' ),
+		'default'       => '',
+		'options'       => array(
+			''		        => __( 'Default', 'fl-theme-builder' ),
+			'M j, Y'        => date( 'M j, Y' ),
+			'F j, Y'        => date( 'F j, Y' ),
+			'm/d/Y'         => date( 'm/d/Y' ),
+			'm-d-Y'         => date( 'm-d-Y' ),
+			'd M Y'         => date( 'd M Y' ),
+			'd F Y'         => date( 'd F Y' ),
+			'Y-m-d'         => date( 'Y-m-d' ),
+			'Y/m/d'         => date( 'Y/m/d' ),
+			'human'         => __( '3 days ago', 'fl-theme-builder' ),
 		),
 	),
 ) );
@@ -231,6 +260,16 @@ FLPageData::add_post_property_settings_fields( 'terms_list', array(
 		'type'          => 'text',
 		'label'         => __( 'Separator', 'fl-theme-builder' ),
 		'default'       => __( ', ', 'fl-theme-builder' ),
+	),
+	'linked' => array(
+		'type'          => 'select',
+		'label'         => __( 'Linked', 'fl-theme-builder' ),
+		'default'       => 'yes',
+		'options'       => array(
+			'yes'        	=> __( 'Yes', 'fl-theme-builder' ),
+			'no'        	=> __( 'No', 'fl-theme-builder' ),
+		),
+		'help'			=> __( 'Link terms to their archive page.', 'fl-theme-builder' ),
 	),
 ) );
 

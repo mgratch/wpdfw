@@ -1,3 +1,62 @@
+<h4>1.0.3 - 11/14/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li><code>wpbb-else</code> support added to <code>wpbb</code> shortcode.</li>
+	<li>Added support for ACF true/false field.</li>
+	<li>All Archives now applies to search archives.</li>
+	<li>Added modified date as an option in post properties. Also supports Human time diff ( 3 days ago ).</li>
+	<li>Renamed module categories and added group data for 2.0 support.</li>
+	<li>Added settings for unlinking terms list connections.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed an issue with WooCommerce filter widgets.</li>
+	<li>Fixed post content connection not showing for the posts module on normal pages.</li>
+	<li>Fixed price font size and color being overridden by WooCommerce CSS.</li>
+	<li>Fixed location issue, post all categories was matching when on a child page.</li>
+	<li>Fixed header layout options when using Storefront theme.</li>
+	<li>Fixed author image connection showing wring image on pages.</li>
+	<li>Fixed a conflict with PDF Product Vouchers plugin.</li>
+	<li>Fixed pagination issue on Events Calendar pages.</li>
+	<li>Fixed JS error when trying to connect a setting on global options forms.</li>
+	<li>Fixed parts being either not editable or duplicated when set to logged in/out location.</li>
+	<li>Fixed ACF date field connection throwing fatal error if no date is set.</li>
+	<li>Fixed duplicated parts when editing a layout.</li>
+	<li>Fixed hidden breadcrumbs when using Storefront theme.</li>
+	<li>Fixed PHP warning in admin menu on windows server.</li>
+</ul>
+
+<h4>1.0.2.1 - 09/05/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed core templates being applied instead of Themer templates due to incorrect BB 2.0 support logic.</li>
+</ul>
+
+<h4>1.0.2 - 08/23/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added support for ACF checkbox fields.</li>
+	<li>Added setting for choosing whether overlay headers are transparent or use the default background color.</li>
+	<li>Added support for WooCommerce request a quote plugin.</li>
+	<li>Theme layouts are now ordered by title by default instead of layout type.</li>
+	<li>Tweaked Themer logic for applying templates to support Beaver Builder 2.0.</li>
+	<li>Updated translation files.</li>
+	<li>Added new option to post navigation module which allows prev/next post to be in same category as the current post.</li>
+	<li>New filter added <code>fl_theme_builder_post_nav</code>.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed single link in post navigation not being aligned correctly.</li>
+	<li>Canceling out of a newly connected field with a form now removes the field connection too.</li>
+	<li>Fixed issue with display of date fields in the free version of ACF.</li>
+	<li>Fixed shortcodes in HTML attributes not being parsed in the context of the current post in the post module's custom layout.</li>
+	<li>Fixed issue with unescaped location labels breaking the location select.</li>
+	<li>Fixed an issue with less compiler, invalid css could cause PHP warnings breaking AJAX.</li>
+	<li>Fixed comments module displaying builder placeholders when builder is not active.</li>
+	<li>Fixed a couple of styling issues in Storefront theme.</li>
+</ul>
+
 <h4>1.0.1.2 - 06/06/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>
@@ -185,5 +244,3 @@
 
 <h4>1.0-alpha.1 - 02/06/2017</h4>
 <p>Initial pre-alpha release.</p>
-
-

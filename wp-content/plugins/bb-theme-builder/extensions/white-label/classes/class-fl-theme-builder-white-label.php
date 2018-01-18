@@ -22,13 +22,13 @@ final class FLThemeBuilderWhiteLabel {
 	 * @return array
 	 */
 	static public function plugins_page( $plugins ) {
-		$default  = __( 'Page Builder', 'fl-theme-builder' );
+		$default  = __( 'Page Builder', 'fl-builder' );
 		$branding = FLBuilderModel::get_branding();
 		$key	  = plugin_basename( FL_THEME_BUILDER_DIR . 'bb-theme-builder.php' );
 
 		if ( isset( $plugins[ $key ] ) && $branding != $default ) {
-			$plugins[ $key ]['Name']	   = $branding . ' - Themer Add-On';
-			$plugins[ $key ]['Title']	   = $branding . ' - Themer Add-On';
+			$plugins[ $key ]['Name']	   = $branding . __( ' - Themer Add-On', 'fl-theme-builder' );
+			$plugins[ $key ]['Title']	   = $branding . __( ' - Themer Add-On', 'fl-theme-builder' );
 			$plugins[ $key ]['Author']	   = '';
 			$plugins[ $key ]['AuthorName'] = '';
 			$plugins[ $key ]['PluginURI']  = '';

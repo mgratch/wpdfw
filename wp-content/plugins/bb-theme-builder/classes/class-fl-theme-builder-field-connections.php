@@ -372,17 +372,20 @@ final class FLThemeBuilderFieldConnections {
 	 * @return object
 	 */
 	static public function connect_node_settings( $settings, $node ) {
-		$nested = array();
+		$repeater = array();
+		$nested   = array();
 
-		// Gather any nested settings.
+		// Gather any repeater or nested settings.
 		foreach ( $settings as $key => $value ) {
 			if ( is_array( $value ) && count( $value ) && isset( $value[0]->connections ) ) {
+				$repeater[] = $key;
+			} elseif ( is_object( $value ) && isset( $value->connections ) ) {
 				$nested[] = $key;
 			}
 		}
 
 		// Return if we don't have connections.
-		if ( ! isset( $settings->connections ) && empty( $nested ) ) {
+		if ( ! isset( $settings->connections ) && empty( $repeater ) && empty( $nested ) ) {
 			return $settings;
 		}
 
@@ -399,11 +402,16 @@ final class FLThemeBuilderFieldConnections {
 		// Connect the main settings object.
 		$settings = self::connect_settings( $settings );
 
-		// Connect any nested settings.
-		foreach ( $nested as $key ) {
+		// Connect any repeater settings.
+		foreach ( $repeater as $key ) {
 			for ( $i = 0; $i < count( $settings->$key ); $i++ ) {
 				$settings->{ $key }[ $i ] = self::connect_settings( $settings->{ $key }[ $i ] );
 			}
+		}
+
+		// Connect any nested settings.
+		foreach ( $nested as $key ) {
+			$settings->{ $key } = self::connect_settings( $settings->{ $key } );
 		}
 
 		// Cache the connected settings.
@@ -535,16 +543,23 @@ final class FLThemeBuilderFieldConnections {
 			return __( 'Incorrect wpbb-if shortcode attributes.', 'fl-theme-builder' );
 		}
 
+		$else     = false;
 		$not      = 0 === strpos( $parts[0], '!' ); // @codingStandardsIgnoreLine
 		$attrs[0] = str_replace( '!', '', $attrs[0] );
 		$value    = self::parse_shortcode( $attrs );
+		if ( false !== strpos( $content, '[wpbb-else]' ) ) {
+			$else     = substr( $content, strpos( $content, '[wpbb-else]' ) );
+			$content  = str_replace( $else, '',  $content );
+		}
 
 		if ( $not && empty( $value ) ) {
 			return do_shortcode( $content );
 		} elseif ( ! $not && $value ) {
 			return do_shortcode( $content );
 		}
-
+		if ( $else ) {
+			return do_shortcode( str_replace( '[wpbb-else]', '', $else ) );
+		}
 		return '';
 	}
 

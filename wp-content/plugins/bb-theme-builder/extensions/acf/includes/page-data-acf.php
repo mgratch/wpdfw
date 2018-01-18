@@ -55,6 +55,7 @@ $form = array(
 			'image'		 		=> __( 'Image', 'fl-theme-builder' ),
 			'file'		 		=> __( 'File', 'fl-theme-builder' ),
 			'select'	 		=> __( 'Select', 'fl-theme-builder' ),
+			'checkbox'		 	=> __( 'Checkbox', 'fl-theme-builder' ),
 			'radio'		 		=> __( 'Radio', 'fl-theme-builder' ),
 			'page_link'  		=> __( 'Page Link', 'fl-theme-builder' ),
 			'google_map'        => __( 'Google Map', 'fl-theme-builder' ),
@@ -66,6 +67,9 @@ $form = array(
 			'image' => array(
 				'fields' => array( 'image_size' ),
 			),
+			'checkbox' => array(
+				'fields' => array( 'checkbox_format' ),
+			),
 		),
 	),
 	'name' => array(
@@ -76,6 +80,16 @@ $form = array(
 		'type'    => 'photo-sizes',
 		'label'   => __( 'Image Size', 'fl-theme-builder' ),
 		'default' => 'thumbnail',
+	),
+	'checkbox_format' => array(
+		'type'    => 'select',
+		'label'   => __( 'Format', 'fl-theme-builder' ),
+		'default' => 'string',
+		'options' => array(
+			'text' 	  => __( 'Text', 'fl-theme-builder' ),
+			'ol' 	  => __( 'Ordered List', 'fl-theme-builder' ),
+			'ul' 	  => __( 'Unordered List', 'fl-theme-builder' ),
+		),
 	),
 );
 

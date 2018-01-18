@@ -151,7 +151,7 @@ final class FLThemeBuilderPostModules {
 				$custom  = '.fl-node-' . $module->node . ' { ';
 				$custom .= $module->settings->custom_post_layout->css;
 				$custom .= ' }';
-				$css    .= $less->compile( $custom );
+				$css    .= @$less->compile( $custom ); // @codingStandardsIgnoreLine
 			} catch ( Exception $e ) {
 				$css .= $module->settings->custom_post_layout->css;
 			}

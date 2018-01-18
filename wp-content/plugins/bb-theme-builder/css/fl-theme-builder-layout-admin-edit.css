@@ -153,7 +153,8 @@ td.fl-mb-row-content select {
 /* Header Settings */
 .fl-theme-layout-header-sticky,
 .fl-theme-layout-header-shrink,
-.fl-theme-layout-header-overlay {
+.fl-theme-layout-header-overlay,
+.fl-theme-layout-header-overlay-bg {
 	display: none;
 }
 

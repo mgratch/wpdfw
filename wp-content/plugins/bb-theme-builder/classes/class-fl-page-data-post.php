@@ -99,6 +99,19 @@ final class FLPageDataPost {
 	}
 
 	/**
+	 * @since 1.0.3
+	 * @param object $settings
+	 * @return string
+	 */
+	static public function get_modified_date( $settings ) {
+
+		if ( 'human' == $settings->format ) {
+			return human_time_diff( get_the_time( 'U' ) ) . ' ago';
+		}
+		return get_the_modified_date( $settings->format );
+	}
+
+	/**
 	 * @since 1.0
 	 * @param object $settings
 	 * @return string
@@ -188,7 +201,15 @@ final class FLPageDataPost {
 
 		$terms_list = get_the_term_list( $post->ID, $settings->taxonomy, '', $settings->separator, '' );
 
-		return is_string( $terms_list ) ? $terms_list : '';
+		if ( is_string( $terms_list ) ) {
+			if ( 'no' === $settings->linked ) {
+				$terms_list = strip_tags( $terms_list );
+			}
+		} else {
+			$terms_list = '';
+		}
+
+		return $terms_list;
 	}
 
 	/**

@@ -48,6 +48,7 @@
 
 			// Header events
 			$( 'select[name="fl-theme-layout-settings[sticky]"]' ).on( 'change', this._stickyChanged );
+			$( 'select[name="fl-theme-layout-settings[overlay]"]' ).on( 'change', this._overlayChanged );
 
 			// Location events
 			$( '.fl-theme-builder-saved-locations' ).delegate( '.fl-theme-builder-location', 'change', this._locationSelectChanged );
@@ -86,6 +87,7 @@
 				sticky    = $( '.fl-theme-layout-header-sticky' ),
 				shrink    = $( '.fl-theme-layout-header-shrink' ),
 				overlay   = $( '.fl-theme-layout-header-overlay' ),
+				overlayBg = $( '.fl-theme-layout-header-overlay-bg' ),
 				hookRow   = $( '.fl-theme-layout-hook-row' ),
 				hook      = $( 'select[name=fl-theme-layout-hook]' ),
 				orderRow  = $( '.fl-theme-layout-order-row' ),
@@ -93,11 +95,12 @@
 
 			if ( 'header' == type ) {
 				sticky.show().find( 'select' ).trigger( 'change' );
-				overlay.show();
+				overlay.show().find( 'select' ).trigger( 'change' );
 			} else {
 				sticky.hide();
 				shrink.hide();
 				overlay.hide();
+				overlayBg.hide();
 			}
 
 			if ( 'part' == type ) {
@@ -604,6 +607,18 @@
 		_stickyChanged: function()
 		{
 			$( '.fl-theme-layout-header-shrink' ).toggle( '1' == $( this ).val() );
+		},
+
+		/**
+		 * Callback for then the header overlay select is changed.
+		 *
+		 * @since 1.0.2
+		 * @access private
+		 * @method _overlayChanged
+		 */
+		_overlayChanged: function()
+		{
+			$( '.fl-theme-layout-header-overlay-bg' ).toggle( '1' == $( this ).val() );
 		},
 
 		/**

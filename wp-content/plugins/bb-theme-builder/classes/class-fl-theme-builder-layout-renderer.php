@@ -357,11 +357,13 @@ final class FLThemeBuilderLayoutRenderer {
 		$settings = FLThemeBuilderLayoutData::get_settings( $ids[0] );
 
 		FLBuilder::render_content_by_id( $ids[0], $tag, array(
-			'itemscope'    => 'itemscope',
-			'itemtype'     => 'http://schema.org/WPHeader',
-			'data-sticky'  => $settings['sticky'],
-			'data-shrink'  => $settings['shrink'],
-			'data-overlay' => $settings['overlay'],
+			'itemscope'    		=> 'itemscope',
+			'itemtype'     		=> 'http://schema.org/WPHeader',
+			'data-type'			=> 'header',
+			'data-sticky'  		=> $settings['sticky'],
+			'data-shrink'  		=> $settings['shrink'],
+			'data-overlay' 		=> $settings['overlay'],
+			'data-overlay-bg' 	=> $settings['overlay_bg'],
 		) );
 
 		do_action( 'fl_theme_builder_after_render_header', $ids[0] );
@@ -407,13 +409,19 @@ final class FLThemeBuilderLayoutRenderer {
 			return;
 		}
 
+		if ( 'fl-theme-layout' == get_post_type() && count( $ids ) > 1 ) {
+			$post_id = FLBuilderModel::get_post_id();
+		} else {
+			$post_id = $ids[0];
+		}
+
 		get_header();
 
-		do_action( 'fl_theme_builder_before_render_content', $ids[0] );
+		do_action( 'fl_theme_builder_before_render_content', $post_id );
 
-		FLBuilder::render_content_by_id( $ids[0], 'div', apply_filters( 'fl_theme_builder_content_attrs', array() ) );
+		FLBuilder::render_content_by_id( $post_id, 'div', apply_filters( 'fl_theme_builder_content_attrs', array() ) );
 
-		do_action( 'fl_theme_builder_after_render_content', $ids[0] );
+		do_action( 'fl_theme_builder_after_render_content', $post_id );
 
 		get_footer();
 	}
@@ -439,6 +447,7 @@ final class FLThemeBuilderLayoutRenderer {
 		FLBuilder::render_content_by_id( $ids[0], $tag, array(
 			'itemscope' => 'itemscope',
 			'itemtype'  => 'http://schema.org/WPFooter',
+			'data-type'	=> 'footer',
 		) );
 
 		do_action( 'fl_theme_builder_after_render_footer', $ids[0] );

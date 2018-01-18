@@ -73,9 +73,10 @@ final class FLThemeBuilderLayoutData {
 	 */
 	static public function get_settings( $post_id ) {
 		$defaults = array(
-			'sticky'  => 0,
-			'shrink'  => 0,
-			'overlay' => 0,
+			'sticky'     => 0,
+			'shrink'     => 0,
+			'overlay'    => 0,
+			'overlay_bg' => 'transparent',
 		);
 
 		$settings = get_post_meta( $post_id, '_fl_theme_layout_settings', true );

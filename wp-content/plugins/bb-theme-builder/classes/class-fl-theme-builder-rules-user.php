@@ -66,6 +66,14 @@ final class FLThemeBuilderRulesUser {
 			}
 		}
 
+		/**
+		 * If on post type 'fl-theme-layout' return $posts['all']
+		 * @since 1.0.3
+		 */
+		if ( 'fl-theme-layout' === get_post_type() ) {
+			return $posts['all'];
+		}
+
 		foreach ( $posts['general'] as $rule => $rule_posts ) {
 			if ( 'logged-in' == $rule && is_user_logged_in() ) {
 				return $rule_posts;

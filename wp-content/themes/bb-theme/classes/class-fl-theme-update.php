@@ -13,8 +13,10 @@ final class FLThemeUpdate {
 	 * @since 1.3.1
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
+
+		add_action( 'fl_theme_updated', array( 'FLCustomizer', 'refresh_css' ) );
+
 		// Export CSS Code if user is using WP > 4.7 and custom css exists.
 		self::wp_4_7_export_css();
 
@@ -41,10 +43,7 @@ final class FLThemeUpdate {
 			self::v_1_3_1();
 		}
 
-		// Update to 1.6 or greater.
-		if ( version_compare( $saved_version, '1.6', '<' ) ) {
-			self::v_1_6();
-		}
+		do_action( 'fl_theme_updated' );
 
 		// Update the saved version number.
 		update_option( '_fl_automator_version', FL_THEME_VERSION );
@@ -58,8 +57,7 @@ final class FLThemeUpdate {
 	 * @access private
 	 * @return void
 	 */
-	static private function v_1_2_0()
-	{
+	static private function v_1_2_0() {
 		$key_map = array(
 			'preset'                    => 'fl-preset',
 			'layout'                    => 'fl-layout-width',
@@ -184,8 +182,7 @@ final class FLThemeUpdate {
 
 				if ( in_array( $key, $color_keys ) && ! strstr( $val, '#' ) ) {
 					$val = '#' . $val;
-				}
-				else {
+				} else {
 					$val = htmlspecialchars_decode( $val );
 				}
 
@@ -210,8 +207,7 @@ final class FLThemeUpdate {
 	 * @access private
 	 * @return void
 	 */
-	static private function v_1_3_1()
-	{
+	static private function v_1_3_1() {
 		$mods = FLCustomizer::get_mods();
 
 		self::v_1_3_1_update_colors( 'topbar', $mods );
@@ -237,28 +233,24 @@ final class FLThemeUpdate {
 	 * @param array $mods The current theme mods.
 	 * @return void
 	 */
-	static private function v_1_3_1_update_colors( $slug, $mods )
-	{
-		if ( ! isset( $mods['fl-' . $slug . '-bg-type'] ) ) {
+	static private function v_1_3_1_update_colors( $slug, $mods ) {
+		if ( ! isset( $mods[ 'fl-' . $slug . '-bg-type' ] ) ) {
 			$bg_type = 'content';
-		}
-		else {
-			$bg_type = $mods['fl-' . $slug . '-bg-type'];
+		} else {
+			$bg_type = $mods[ 'fl-' . $slug . '-bg-type' ];
 		}
 
 		if ( 'none' == $bg_type ) {
 			$bg   = '';
 			$text = FLColor::foreground( $mods['fl-body-bg-color'] );
 			$link = $text;
-		}
-		else if ( 'content' == $bg_type ) {
+		} elseif ( 'content' == $bg_type ) {
 			$bg   = $mods['fl-content-bg-color'];
 			$text = FLColor::foreground( $mods['fl-content-bg-color'] );
 			$link = $mods['fl-accent'];
-		}
-		else {
-			$bg   = $mods['fl-' . $slug . '-bg-color'];
-			$text = FLColor::foreground( $mods['fl-' . $slug . '-bg-color'] );
+		} else {
+			$bg   = $mods[ 'fl-' . $slug . '-bg-color' ];
+			$text = FLColor::foreground( $mods[ 'fl-' . $slug . '-bg-color' ] );
 			$link = $text;
 		}
 
@@ -266,17 +258,6 @@ final class FLThemeUpdate {
 		set_theme_mod( 'fl-' . $slug . '-text-color', $text );
 		set_theme_mod( 'fl-' . $slug . '-link-color', $link );
 		set_theme_mod( 'fl-' . $slug . '-hover-color', $link );
-	}
-
-	/**
-	 * Flushes compiled css on update to 1.6.
-	 *
-	 * @since 1.6
-	 * @access private
-	 * @return void
-	 */
-	static private function v_1_6() {
-		FLCustomizer::refresh_css();
 	}
 
 	/**
@@ -294,9 +275,9 @@ final class FLThemeUpdate {
 			$mods = FLCustomizer::get_mods();
 
 			// Export BB CSS code if exists
-			if ( isset( $mods[ 'fl-css-code' ] ) && ! empty( $mods[ 'fl-css-code' ] ) ) {
+			if ( isset( $mods['fl-css-code'] ) && ! empty( $mods['fl-css-code'] ) ) {
 
-				$fl_css = $mods[ 'fl-css-code' ];
+				$fl_css = $mods['fl-css-code'];
 				$wp_css = wp_get_custom_css_post();
 
 				$css_code = "\r\n\r\n/*\r\n" . esc_js( __( 'CSS Migrated from BB theme:', 'fl-automator' ) ) . "\r\n*/\r\n\r\n";
@@ -310,7 +291,7 @@ final class FLThemeUpdate {
 				wp_update_custom_css_post( $css_code );
 
 				// Remove mod so it would only export once.
-				remove_theme_mod('fl-css-code');
+				remove_theme_mod( 'fl-css-code' );
 			}
 		}
 	}

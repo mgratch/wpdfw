@@ -2,11 +2,11 @@
 	display: flex;
 }
 .fl-module-fl-post-navigation .nav-links .nav-previous {
-	width: 50%;
+	width: 100%;
 }
 .fl-module-fl-post-navigation .nav-links .nav-next {
 	text-align: right;
-	width: 50%;
+	width: 100%;
 }
 .fl-module-fl-post-navigation .screen-reader-text {
     clip: rect(1px,1px,1px,1px);

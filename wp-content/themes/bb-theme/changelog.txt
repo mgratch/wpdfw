@@ -1,3 +1,77 @@
+<h4>1.6.4.1 - 01/15/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Font Weight dropdown in theme customizer.</li>
+</ul>
+
+<h4>1.6.4 - 01/10/2018</h4>
+
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Changed <code>gmpg.org</code> and <code>schema.org</code> links to https.</li>
+	<li>Added indentation to product categories widget.</li>
+	<li>Added <code>fl_theme_add_panel_data</code> filter to allow users to change the customizer panels just before render.</li>
+	<li>Add role and aria-label to <code><nav></code> elements.</li>
+	<li>Clear theme cache when theme is updated.</li>
+	<li>GoogleFonts array is now updated on every release automatically.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Hamburger menu now uses header layout padding to determine its position.</li>
+	<li>Removed WooCommerce styles from less compile if the plugin is not active.</li>
+	<li>Fixed hamburger menu position when fixed, shrink and sticky header options are used.</li>
+	<li>Fixed the submenu link color on the responsive nav. Uses header style for link color instead of the nav style.</li>
+	<li>Fixed a possible customizer js error when fonts are added then removed via php filters.</li>
+	<li>Fixed header background color on nav background for fixed header.</li>
+	<li>Removed bottom margin wrongfully added to widgets module by the theme.</li>
+	<li>Fixed a spacing issue when hovering mega menu item.</li>
+</ul>
+
+<h4>1.6.3.1 - 12/07/2017</h4>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed theme branding issue in translation files.</li>
+	<li>Fixed issue with responsive submenu items not opening if parent link is #.</li>
+</ul>
+
+<h4>1.6.3 - 11/08/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New filter <code>fl_theme_compile_less</code>. Accepts array of files to be passed to lessc.</li>
+	<li>Added screen reader accessibility for social icons.</li>
+	<li>Added toggle logic for sub-menu on mobile devices.</li>
+	<li>Added Events Calendar support; CSS for archives.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Removed duplicate class attribute from nav search.</li>
+	<li>Fixed multiple current menu items. Made sure there is only one current menu item specified in the nav.</li>
+	<li>Fixed the Themer footer layout for vertical nav.</li>
+	<li>Changed width for post header and comments. It should now use the Content Width from customizer setting.</li>
+	<li>Fixed various WooCommerce styling issues.</li>
+	<li>Fixed various MegaMenu issues.</li>
+	<li>Fixed issue with WooCommerce remove from cart being hidden on mobile.</li>
+	<li>Fixed sidebar issue on pages using custom template files.</li>
+	<li>Deprecated <code>fl-logo-text</code> filter, use <code>fl_logo_text</code> instead.</li>
+</ul>
+
+<h4>1.6.2 - 08/17/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>You can now toggle sidebars for all custom post types.</li>
+	<li>New filters <code>fl_theme_viewport</code> and <code>fl_theme_xua_compatible</code> added.</li>
+	<li>Updated language files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed padding issue on nav last menu item.</li>
+	<li>Fixed HTML5 markup in searchform.php.</li>
+	<li>Mobile Nav uses Header settings instead of Nav, as per the docs.</li>
+	<li>Fixed IOS issue with back button and sub menus staying on the page.</li>
+	<li>Fixed Font filters added in 1.6.1</li>
+</ul>
+
 <h4>1.6.1 - 06/01/2017</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

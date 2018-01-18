@@ -28,7 +28,7 @@ final class FLThemeBuilder {
 		FLBuilderUserAccess::register_setting( 'theme_builder_editing', array(
 			'default'     => array( 'administrator' ),
 			'group'       => __( 'Admin', 'fl-theme-builder' ),
-			'label'       => __( 'Theme Builder Editing', 'fl-theme-builder' ),
+			'label'       => __( 'Themer Layout Editing', 'fl-theme-builder' ),
 			'description' => __( 'The selected roles will be able to edit themes using the builder.', 'fl-theme-builder' ),
 			'order'		  => '110',
 		) );

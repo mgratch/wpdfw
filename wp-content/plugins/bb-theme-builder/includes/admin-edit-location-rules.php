@@ -32,7 +32,7 @@
 	<div class="fl-theme-builder-saved-location fl-theme-builder-saved-rule">
 		<div class="fl-theme-builder-saved-rule-select">
 			<select name="fl-theme-builder-{{data.type}}[]" class="fl-theme-builder-location">
-				<option value=""><?php _e( 'Choose...', 'fl-theme-builder' ); ?></option>
+				<option value=""><?php esc_html_e( 'Choose...', 'fl-theme-builder' ); ?></option>
 				<?php foreach ( $locations['by_post_type'] as $group ) : ?>
 				<optgroup label="<?php echo $group['label']; ?>">
 					<?php foreach ( $group['locations'] as $location ) : ?>
@@ -42,7 +42,7 @@
 				<?php endforeach; ?>
 			</select>
 			<select name="fl-theme-builder-{{data.type}}-objects[]" class="fl-theme-builder-location-objects fl-theme-builder-rule-objects">
-				<option value=""><?php _e( 'Choose...', 'fl-theme-builder' ); ?></option>
+				<option value=""><?php esc_html_e( 'Choose...', 'fl-theme-builder' ); ?></option>
 			</select>
 		</div>
 		<div class="fl-theme-builder-remove-rule-button">

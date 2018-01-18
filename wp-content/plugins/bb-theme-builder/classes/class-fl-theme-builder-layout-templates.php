@@ -150,7 +150,12 @@ final class FLThemeBuilderLayoutTemplates {
 
 			if ( $layout_type && in_array( $layout_type, $types ) ) {
 
-				FLBuilderModel::apply_core_template( $data['index'], $data['append'], $layout_type );
+				// In BB 2.0 we must return the result instead of a boolean value.
+				$result = FLBuilderModel::apply_core_template( $data['index'], $data['append'], $layout_type );
+
+				if ( ! empty( $result ) ) {
+					return $result;
+				}
 
 				return true;
 			}

@@ -195,7 +195,7 @@ final class FLThemeBuilderLayoutAdminEdit {
 
 		add_meta_box(
 			'fl-theme-builder-settings',
-			__( 'Theme Layout Settings', 'fl-theme-builder' ),
+			__( 'Themer Layout Settings', 'fl-theme-builder' ),
 			__CLASS__ . '::settings_meta_box',
 			'fl-theme-layout',
 			'normal',

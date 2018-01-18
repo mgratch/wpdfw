@@ -17,10 +17,16 @@
 }
 
 /* Content */
-.fl-theme-builder-singular .woocommerce-breadcrumb,
-.fl-theme-builder-archive .woocommerce-breadcrumb,
-.fl-theme-builder-404 .woocommerce-breadcrumb {
+.fl-theme-builder-singular .col-full > .woocommerce-breadcrumb,
+.fl-theme-builder-archive .col-full > .woocommerce-breadcrumb,
+.fl-theme-builder-404 .col-full > .woocommerce-breadcrumb {
 	display: none;
+}
+
+.fl-theme-builder-singular .fl-module-fl-woo-breadcrumb .woocommerce-breadcrumb,
+.fl-theme-builder-archive .fl-module-fl-woo-breadcrumb .woocommerce-breadcrumb,
+.fl-theme-builder-404 .fl-module-fl-woo-breadcrumb .woocommerce-breadcrumb {
+	padding: 10px;
 }
 
 /* Full Width Content */
@@ -29,4 +35,8 @@
     max-width: 100%;
 	padding: 0;
 	width: 100%;
+}
+
+body.single-product.fl-theme-builder-singular .fl-module-fl-woo-product-price p.price {
+	margin: 0px;
 }

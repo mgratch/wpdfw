@@ -13,7 +13,8 @@ class FLWooProductRatingModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Product Rating', 'fl-theme-builder' ),
 			'description'   	=> __( 'Displays the star rating for the current product.', 'fl-theme-builder' ),
-			'category'      	=> __( 'WooCommerce Modules', 'fl-theme-builder' ),
+			'group'       		=> __( 'Themer Modules', 'fl-theme-builder' ),
+			'category'      	=> __( 'WooCommerce', 'fl-theme-builder' ),
 			'partial_refresh'	=> true,
 			'dir'               => FL_THEME_BUILDER_DIR . 'extensions/woocommerce/modules/fl-woo-product-rating/',
 			'url'               => FL_THEME_BUILDER_URL . 'extensions/woocommerce/modules/fl-woo-product-rating/',

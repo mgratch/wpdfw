@@ -47,7 +47,7 @@ final class FLThemeBuilderFrontendEdit {
 			'adminEditURL' => admin_url( '/post.php?post=' . $post->ID . '&action=edit' ),
 			'layouts' => FLThemeBuilderLayoutData::get_current_page_layouts(),
 			'strings' => array(
-				'overrideWarning' => sprintf( _x( 'This %1$s has a Theme Builder layout assigned to it. Using %2$s here will override that layout. Do you want to continue?', '%1$s post type label. %2$s custom builder branding.', 'fl-theme-builder' ), $post_label, FLBuilderModel::get_branding() ),
+				'overrideWarning' => sprintf( _x( 'This %1$s has a Themer layout assigned to it. Using %2$s here will override that layout. Do you want to continue?', '%1$s post type label. %2$s custom builder branding.', 'fl-theme-builder' ), $post_label, FLBuilderModel::get_branding() ),
 				'overrideWarningOk' => __( 'Yes, use the builder', 'fl-theme-builder' ),
 				'overrideWarningCancel' => __( 'No, take me back', 'fl-theme-builder' ),
 			),

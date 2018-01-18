@@ -2,8 +2,8 @@
 
 WARNING! DO NOT EDIT THEME FILES IF YOU PLAN ON UPDATING!
 
-Theme files will be overwritten and your changes will be lost 
-when updating. Instead, add custom code in the admin under 
+Theme files will be overwritten and your changes will be lost
+when updating. Instead, add custom code in the admin under
 Appearance > Theme Settings > Code or create a child theme.
 
 */
@@ -40,7 +40,7 @@ Appearance > Theme Settings > Code or create a child theme.
 	}
 }
 
-/* 
+/*
 Nav Toggle - Hamburger Icon
 It's being used in the theme.less for media queries when enabled in the customizer.
 ------------------------------------------------------------------------------------ */
@@ -78,16 +78,20 @@ It's being used in the theme.less for media queries when enabled in the customiz
 		padding: 6px 8px;
 		position: absolute;
 		right: 20px;
-		top: @header-padding;
+		top: ceil(@header-padding - 6);
 		width: auto;
 		&:hover,
 		&:focus {
 			background: transparent;
 		}
+		color: @mobile-nav-fg-link-color;
+		* {
+			color: @mobile-nav-fg-link-color;
+		}
 	}
 }
 
-/* 
+/*
 Nav Toggle - Menu Button
 It's being used in the theme.less for media queries when enabled in the customizer.
 ---------------------------------------------------------------------------------- */
@@ -117,6 +121,11 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			background: @mobile-nav-btn-color;
 		}
 	}
+	&.fl-page-header-fixed {
+		.fl-page-nav-wrap {
+			padding-top: 20px;
+		}
+	}
 }
 
 /* Nav Toggle Common - This applies to both Hamburger and Button.
@@ -140,15 +149,15 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			&.in {
 				display: block!important;
 				visibility: visible!important;
-			}		
+			}
 		}
 
 		/* Nav Colors
-		----------------------------------------------------------- */		
+		----------------------------------------------------------- */
 		ul.navbar-nav {
 			display: block;
 			float: none;
-			> li {		
+			> li {
 				border-color: @mobile-nav-btn-color;
 				border-bottom-style: solid;
 				border-bottom-width: 1px;
@@ -166,6 +175,9 @@ It's being used in the theme.less for media queries when enabled in the customiz
 				&.current-menu-item > a {
 					color: @mobile-nav-fg-hover-color;
 				}
+			}
+			> li.current-menu-item ~ li.current-menu-item > a {
+				color: @mobile-nav-fg-link-color;
 			}
 		}
 		ul.sub-menu li {
@@ -188,11 +200,11 @@ It's being used in the theme.less for media queries when enabled in the customiz
 	/* Nav Dropdown Menus
 	----------------------------------------------------------- */
 	.fl-page-nav ul {
-		&.sub-menu {			
+		&.sub-menu {
 			background-color: transparent;
 			border: none;
 			float: none;
-			height: 100%;			
+			height: 100%;
 			list-style: none;
 			overflow: hidden;
 			padding: 0;
@@ -207,7 +219,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 				border-top: 1px solid @border-color;
 				a {
 					clear: both;
-					color: @nav-fg-link-color;
+					color: @mobile-nav-fg-link-color;
 					display: block;
 					font-weight: @nav-font-weight;
 					line-height: 20px;
@@ -215,7 +227,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 					padding: 15px 20px;
 					&:hover,
 					&:focus {
-						color: @nav-fg-hover-color;
+						color: @mobile-nav-fg-hover-color;
 						text-decoration: none;
 					}
 					&:before {
@@ -230,6 +242,36 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			&.fl-mobile-sub-menu-open {
 				ul.sub-menu {
 					position: static;
+				}
+			}
+		}
+	}
+
+	/* Nav Submenu Toggle
+	----------------------------------------------------------- */
+	.fl-submenu-toggle & {
+		.fl-page-nav ul.navbar-nav {
+			.sub-menu {
+				position: absolute;
+			}
+			li {
+				&.menu-item-has-children > a:after {
+					content: '\f107';
+					font-family: FontAwesome;
+					float: right;
+				}
+				&.fl-mobile-sub-menu-open {
+					> a:after {
+						content: '\f106';
+						font-family: FontAwesome;
+						float: right;
+					}
+					> ul.sub-menu {
+						position: static;
+					}
+				}
+				a {
+					padding: 15px;
 				}
 			}
 		}
@@ -250,7 +292,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			}
 		}
 		.fl-page-header-row .fl-page-header-logo {
-			padding-bottom: 30px;
+			padding-bottom: @header-padding;
 		}
 	}
 
@@ -258,7 +300,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 	----------------------------------------------------------- */
 	&.fl-page-nav-left {
 		.fl-page-header-row .fl-page-header-logo {
-			padding-bottom: 30px;
+			padding-bottom: @header-padding;
 		}
 		.fl-page-nav ul.navbar-nav > li:first-child a {
 			padding-left: 17px;
@@ -278,7 +320,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 	----------------------------------------------------------- */
 	&.fl-page-header-vertical {
 		top: 0;
-	}	
+	}
 }
 
 /* Nav Separators
@@ -306,7 +348,7 @@ It's being used in the theme.less for media queries when enabled in the customiz
 	@bg-position,
 	@bg-attachment,
 	@bg-size
-) 
+)
 when not( @bg-image = none ) {
 	background-image: @bg-image;
 	background-repeat: @bg-repeat;
@@ -360,7 +402,7 @@ when not( @bg-image = none ) {
 
 .fl-change-row-color(
 	@bg-color,
-	@fg-color, 
+	@fg-color,
 	@fg-link-color,
 	@fg-hover-color,
 	@border-color: 'transparent',
@@ -371,11 +413,11 @@ when not( @bg-image = none ) {
 	background-color: @bg-color;
 	color: @fg-color;
 	*,
-	h1, 
-	h2, 
-	h3, 
-	h4, 
-	h5, 
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
 	h6 {
 		color: @fg-color;
 	}
@@ -398,7 +440,7 @@ when not( @bg-image = none ) {
 			&:hover,
 			&:focus {
 				color: @fg-hover-color;
-			}   
+			}
 		}
 		&.current-menu-ancestor > a,
 		&.current-menu-parent > a,
@@ -406,18 +448,21 @@ when not( @bg-image = none ) {
 			color: @fg-hover-color;
 		}
 	}
+	.navbar-nav li.current-menu-item ~ li.current-menu-item > a {
+		color: @fg-color;
+	}
 }
 
 /* Row Background Vertical Gradient */
 .fl-change-row-color(
 	@bg-color,
-	@fg-color, 
+	@fg-color,
 	@fg-link-color,
 	@fg-hover-color,
 	@border-color: 'transparent',
 	@gradient: 0,
 	@gradient_type: 'vertical'
-) 
+)
 when (iscolor(@bg-color)) and (@gradient > 0) and (@gradient_type = 'vertical') {
 	.fl-gradient(@bg-color, @gradient);
 }
@@ -425,13 +470,13 @@ when (iscolor(@bg-color)) and (@gradient > 0) and (@gradient_type = 'vertical') 
 /* Row Background Radial Gradient */
 .fl-change-row-color(
 	@bg-color,
-	@fg-color, 
+	@fg-color,
 	@fg-link-color,
 	@fg-hover-color,
 	@border-color: 'transparent',
 	@gradient: 0,
 	@gradient_type: 'vertical'
-) 
+)
 when (iscolor(@bg-color)) and (@gradient > 0) and (@gradient_type = 'radial') {
 	.fl-radial-gradient(@bg-color, @gradient);
 }

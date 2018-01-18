@@ -1,10 +1,10 @@
 <?php
 
-if(class_exists('FLUpdater')) {
+if ( class_exists( 'FLUpdater' ) ) {
 	FLUpdater::add_product(array(
-		'name'      => 'Beaver Builder Theme', 
-		'version'   => '1.6.1', 
+		'name'      => 'Beaver Builder Theme',
+		'version'   => '1.6.4.1',
 		'slug'      => 'bb-theme',
-		'type'      => 'theme'
+		'type'      => 'theme',
 	));
 }

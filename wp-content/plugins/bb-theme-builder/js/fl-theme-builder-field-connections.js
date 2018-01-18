@@ -202,6 +202,7 @@
 				FLThemeBuilderFieldConnections._triggerPreview( { target : field } );
 			} else {
 				connection.attr( 'data-form', formId );
+				connection.addClass( 'fl-field-connection-clear-on-cancel' );
 				FLThemeBuilderFieldConnections._showSettingsForm( field, formId, config );
 			}
 		},
@@ -411,6 +412,7 @@
 			}
 
 			field.removeClass( 'fl-field-connection-editing' );
+			connection.removeClass( 'fl-field-connection-clear-on-cancel' );
 			FLBuilder._closeNestedSettings();
 		},
 
@@ -425,12 +427,16 @@
 		 */
 		_cancelSettingsFormClicked: function( e )
 		{
-			var field = $( '.fl-field-connection-editing' ),
-				val   = field.find( '.fl-field-connection-value' ).val();
+			var field 	   = $( '.fl-field-connection-editing' ),
+				connection = field.find( '.fl-field-connection' ),
+				val   	   = field.find( '.fl-field-connection-value' ).val();
 
 			field.removeClass( 'fl-field-connection-editing' );
 
-			if ( '' != val ) {
+			if ( connection.hasClass( 'fl-field-connection-clear-on-cancel' ) ) {
+				field.find( '.fl-field-connection-remove' ).trigger( 'click' );
+			}
+			else if ( '' != val ) {
 				FLThemeBuilderFieldConnections._triggerPreview( { target: field } );
 			}
 		},
@@ -491,8 +497,9 @@
 			if ( $( '.fl-form-field-settings:visible' ).length ) {
 				return;
 			}
-
-			FLBuilder.preview.delayPreview( e );
+			if( FLBuilder.preview ) {
+				FLBuilder.preview.delayPreview( e );
+			}
 		}
 	};
 

@@ -152,6 +152,9 @@ final class FLThemeBuilderSupportStorefront {
 		if ( ! empty( $ids ) && 'fl-theme-layout-full-width.php' == get_page_template_slug( $ids[0] ) ) {
 			$classes[] = 'fl-theme-builder-full-width';
 		}
+		if ( 'fl-theme-layout' == get_post_type() ) {
+			$classes[] = 'single-product';
+		}
 
 		return $classes;
 	}
